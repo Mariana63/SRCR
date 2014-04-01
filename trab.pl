@@ -34,18 +34,9 @@ local('mario',60,20).
 local('mariana',80,160).
 local('miguel',100,150).
 
-sqrt(N,S) :- loop(N, 0, 1, 1, S).
+sqrt(N,S) :- S is N*N.
 
-loop(N, Sqrt, Odd, Sum, Ans) :-
-        Sum =< N,
-        Sqrt1 is Sqrt+1,
-        Odd1 is Odd+2,
-        Sum1 is Sum+Odd,
-        loop(N, Sqrt1, Odd1, Sum1, Ans).
-
-loop(N, Sqrt, _, Sum, Sqrt) :- Sum > N.
-
-distancia(X,Y,A,B,R) :- R is sqrt(((X-A)*(X-A))+((Y-B)*(Y-B))).
+distancia((X1,Y1),(X2,Y2),R) :- R is sqrt(((X1-X2)*(X1-X2))+((Y1-Y2)*(Y1-Y2))).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que não permite a insercao de conhecimento repetido
