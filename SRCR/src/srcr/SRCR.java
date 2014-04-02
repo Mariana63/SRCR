@@ -84,9 +84,9 @@ public class SRCR {
    	
     	do {
     		if(opt.equals("1"))
-                { query=distPastelarias(); }	
+                { query=distPastelarias(); } else
     		if(opt.equals("2"))
-                { }	
+                { } else
     		if(opt.equals("3"))
                 { }	
                 else {
@@ -115,7 +115,7 @@ public class SRCR {
    	
     	do {
     		if(opt.equals("1"))
-                { query="pastelaria(Nome)."; 
+                { query="restaurante(Nome,_,_,_)."; 
                 } else	
     		if(opt.equals("2"))
                 { query=calcularDistancias(); } else
@@ -142,19 +142,19 @@ public class SRCR {
     {
       sp = new SICStus(argv,null);
 
-      sp.load("C:\\Users\\maleite\\Desktop\\trab.pl");
+      sp.load("C:\\trabalho.pl");
       String queryS = null;
       
       queryS=menuPrincipal();
-      //String queryS="pai('jose',X).";
-      //String queryS="descendente('jose',X).";
-      //String queryS="avo(X,'joao').";
       HashMap map = new HashMap();
       Query query = sp.openPrologQuery(queryS,map);
-
-      while (query.nextSolution()) { 
+      
+      
+      while (query.nextSolution()) {
           System.out.println(map.toString());
         }
+      System.out.println("asdasadsaas "+map.size());
+      
       menuPrincipal();
     }
   catch ( Exception e )

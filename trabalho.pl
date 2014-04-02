@@ -42,15 +42,25 @@ restaurante(bacalhau,porto,0,coor2).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que não permite a insercao de conhecimento repetido
 
-+pastelaria( P ) :: (solucoes( P, (pastelaria( P )), S),
-					comprimento( S,N ), N==1
-					).
++coordenadas(cod_coor,coor_X,coor_Y) :: (solucoes( (cod_coor,coor_X,coor_Y), (coordenadas(cod_coor,coor_X,coor_Y)), S),
+										comprimento( S,N ), N==1
+										).
 
--pastelaria( P ) :: (
-					).
+%-coordenadas(cod_coor,coor_X,coor_Y) :: ().
 
--zona( P,R ) :- nao(zona( P,R )).
--local( P,XX,YY ) :- nao(local( P,XX,YY )).
++localidade(nome_loc,cod_regiao) :: (solucoes( (nome_loc,cod_regiao), (localidade(nome_loc,cod_regiao)), S),
+									comprimento( S,N ), N==1
+									).
+%-localidade(nome_loc,cod_regiao) :: (
+%									).
+
++restaurante(N,NLoc,cTipo,cCoor) :: (coordenadas(cCoor)).
++restaurante(N,NLoc,cTipo,cCoor) :: (localidade(Nloc)).
++restaurante(N,NLoc,cTipo,cCoor) :: (solucoes( (N,NLoc,cTipo,cCoor), (restaurante(N,NLoc,cTipo,cCoor)), S),
+									comprimento( S,N ), N==1
+									).
+%-restaurante(N,NLoc,cTipo,cCoor) :: (
+%									).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a remocao do conhecimento
