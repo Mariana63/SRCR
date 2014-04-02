@@ -56,9 +56,9 @@ public class SRCR {
    	
     	do {
     		if(opt.equals("N") || opt.equals("n"))
-                { }	
+                { } else	
     		if(opt.equals("C") || opt.equals("c"))
-                { }	
+                { } else
     		if(opt.equals("S") || opt.equals("s"))
                 { }	
                 else {
