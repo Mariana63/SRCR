@@ -14,7 +14,7 @@
 :- dynamic local/2.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensão do predicado pastelaria: Nome -> {V,F}
+% Extensão do predicado restaurante: Nome -> {V,F}
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Base de conhecimento inicial
@@ -38,19 +38,6 @@ localidade(braga, n).
 %restaurante(nome_rest, nome_loc, cod_tipo, cod_coor).
 restaurante(atum,braga,1,coor1).
 restaurante(bacalhau,porto,0,coor2).
-
-sqrt(N,S) :- loop(N, 0, 1, 1, S).
-
-loop(N, Sqrt, Odd, Sum, Ans) :-
-        Sum =< N,
-        Sqrt1 is Sqrt+1,
-        Odd1 is Odd+2,
-        Sum1 is Sum+Odd,
-        loop(N, Sqrt1, Odd1, Sum1, Ans).
-
-loop(N, Sqrt, _, Sum, Sqrt) :- Sum > N.
-
-distancia(X,Y,A,B,R) :- R is sqrt(((X-A)*(X-A))+((Y-B)*(Y-B))).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que não permite a insercao de conhecimento repetido
@@ -105,3 +92,17 @@ comprimento( S,N ) :-
 
 nao(X) :- X,!,fail.
 nao(X).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+sqrt(N,S) :- loop(N, 0, 1, 1, S).
+
+loop(N, Sqrt, Odd, Sum, Ans) :-
+        Sum =< N,
+        Sqrt1 is Sqrt+1,
+        Odd1 is Odd+2,
+        Sum1 is Sum+Odd,
+        loop(N, Sqrt1, Odd1, Sum1, Ans).
+
+loop(N, Sqrt, _, Sum, Sqrt) :- Sum > N.
+
+distancia(X,Y,A,B,R) :- R is sqrt(((X-A)*(X-A))+((Y-B)*(Y-B))).
