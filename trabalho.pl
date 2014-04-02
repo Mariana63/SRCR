@@ -9,9 +9,11 @@
 % SICStus PROLOG: definicoes iniciais
 :- op( 900,xfy,'::' ).
 :- dynamic '-'/1.
-:- dynamic pastelaria/1.
-:- dynamic zona/2.
-:- dynamic local/2.
+:- dynamic restaurante/4.
+:- dynamic tipo/2.
+:- dynamic coordenadas/3.
+:- dynamic regiao/2.
+:- dynamic localidade/2.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado restaurante: Nome -> {V,F}
@@ -19,46 +21,50 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Base de conhecimento inicial
 
-%coordenadas(cod_coor,coor_X,coor_Y)
+% coordenadas(cod_coor,coor_X,coor_Y)
 coordenadas(coor1,100,100).
 coordenadas(coor2,80,60).
 
-%tipo(cod_tipo,nome).
+% tipo(cod_tipo,nome).
 tipo(0, sem_takeAway).
 tipo(1, takeAway).
 
-%regiao(cod_regiao, nome_regiao).
+% regiao(cod_regiao, nome_regiao).
 regiao(n,norte).
 regiao(c,centro).
 regiao(s,sul).
 
-%localidade(nome_loc,cod_regiao).
+% localidade(nome_loc,cod_regiao).
 localidade(braga, n).
 
-%restaurante(nome_rest, nome_loc, cod_tipo, cod_coor).
+% restaurante(nome_rest, nome_loc, cod_tipo, cod_coor).
 restaurante(atum,braga,1,coor1).
 restaurante(bacalhau,porto,0,coor2).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que não permite a insercao de conhecimento repetido
 
-+coordenadas(cod_coor,coor_X,coor_Y) :: (solucoes( (cod_coor,coor_X,coor_Y), (coordenadas(cod_coor,coor_X,coor_Y)), S),
++coordenadas(Cod_coor,Coor_X,Coor_Y) :: (solucoes( cod, (coordenadas(cod_coor,coor_X,coor_Y)), S),
 										comprimento( S,N ), N==1
 										).
 
 %-coordenadas(cod_coor,coor_X,coor_Y) :: ().
 
-+localidade(nome_loc,cod_regiao) :: (solucoes( (nome_loc,cod_regiao), (localidade(nome_loc,cod_regiao)), S),
++localidade(Loc,Regiao) :: (solucoes( Loc, (localidade(Loc,Regiao)), S),
 									comprimento( S,N ), N==1
 									).
+
 %-localidade(nome_loc,cod_regiao) :: (
 %									).
 
-+restaurante(N,NLoc,cTipo,cCoor) :: (coordenadas(cCoor)).
-+restaurante(N,NLoc,cTipo,cCoor) :: (localidade(Nloc)).
-+restaurante(N,NLoc,cTipo,cCoor) :: (solucoes( (N,NLoc,cTipo,cCoor), (restaurante(N,NLoc,cTipo,cCoor)), S),
+
++restaurante(Nome,Loc,Tipo,Coor) :: (solucoes( Nome, (restaurante(Nome,_,_,_)), S),
 									comprimento( S,N ), N==1
 									).
+%+restaurante(Nome,Loc,Tipo,Coor) :: ( coordenadas(Coor) ).
++restaurante(Nome,Loc,Tipo,Coor) :: ( localidade(Loc,_) ).
+
+
 %-restaurante(N,NLoc,cTipo,cCoor) :: (
 %									).
 
