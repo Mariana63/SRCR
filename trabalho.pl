@@ -14,6 +14,7 @@
 :- dynamic coordenadas/3.
 :- dynamic regiao/2.
 :- dynamic zona/2.
+:- dynamic ligacao/2.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado restaurante: Nome -> {V,F}
@@ -23,22 +24,42 @@
 restaurante('Tasquinha').
 restaurante('Taberna').
 restaurante('ZeroZero').
+restaurante('Abola').
+restaurante('Ojogo').
+restaurante('Algarvio').
 
 coordenadas('Tasquinha',1,1).
 coordenadas('Taberna',2,2).
-coordenadas('ZeroZero',3,3).
+coordenadas('ZeroZero',3,6).
+coordenadas('Abola',4,5).
+coordenadas('Ojogo',5,1).
+coordenadas('Algarvio',4,10).
+
+ligacao('braga',['coimbra']).
+ligacao('coimbra',['lisboa','braga']).
+ligacao('lisboa',['coimbra','algarve']).
+ligacao('algarve',['lisboa']).
 
 regiao('Tasquinha','norte').
 regiao('Taberna','centro').
 regiao('ZeroZero','sul').
+regiao('Abola','centro').
+regiao('Ojogo','norte').
+regiao('Algarvio','sul').
 
 zona('Tasquinha','braga').
 zona('Taberna','coimbra').
 zona('ZeroZero','lisboa').
+zona('Abola','coimbra').
+zona('Ojogo','braga').
+zona('Algarvio','algarve').
 
 tipo('Tasquinha',0).
 tipo('Taberna',1).
 tipo('ZeroZero', 0).
+tipo('Abola',0).
+tipo('Ojogo',1).
+tipo('Algarvio',1).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Restaurante
@@ -48,7 +69,7 @@ tipo('ZeroZero', 0).
 						).
 
 -restaurante( Nome ) :: (-coordenadas(Nome,XX,YY), -zona(Nome,Z),
-						 -regiao(Nome,_), tipo(Nome,_)).
+						 -regiao(Nome,_), -tipo(Nome,_)).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Coordenadas
@@ -142,3 +163,19 @@ loop(N, Sqrt, Odd, Sum, Ans) :-
 loop(N, Sqrt, _, Sum, Sqrt) :- Sum > N.
 
 distancia(X,Y,A,B,R) :- R is sqrt(((X-A)*(X-A))+((Y-B)*(Y-B))).
+
+verifica(NO,ND,R) :- coordenadas(NO,OX,OY),
+					 coordenadas(ND,DX,DY),
+					 distancia(OX,OY,DX,DY,R).
+
+listas([],0).
+listas([X],0).
+listas([X,Y | XYS],R) :- listas([Y|XYS],RR),
+						 verifica(X,Y,R2),
+						 R is R2+RR.
+
+pertence(X,[X|L]).
+pertence(X,[Y|L]) :- X\==Y, pertence(X,L).
+
+ha_caminho(A, B) :- ligacao(A,R),
+					pertence(B,R).
