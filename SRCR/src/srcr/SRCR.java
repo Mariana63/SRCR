@@ -11,6 +11,7 @@ import se.sics.jasper.SICStus;
 import java.util.HashMap;
 import java.util.Scanner;
 import se.sics.jasper.Query;
+import se.sics.jasper.SPException;
 
 /**
  *
@@ -33,16 +34,14 @@ public class SRCR {
         System.out.println("#                                                         #");
 	System.out.println("###########################################################");
         
-        
-        //ESTÁ MAL!!!
-        query="distancia(local(origem,X,Y),local(destino,A,B),DISTANCIA).";
+        query="verifica('"+origem+"','"+destino+"',DISTANCIA).";
         
         return query;
-   
     }
     
-    public static void pastRegiao() throws IOException, ClassNotFoundException {
-	System.out.println("############## Pastelarias por região ###############");
+    public static String restRegiao() throws IOException, ClassNotFoundException {
+	String query=null;
+        System.out.println("############## Pastelarias por região ###############");
 	System.out.println("#                                                   #");
     	System.out.println("#   De que região pretende ver                      #");
     	System.out.println("#                                                   #");
@@ -56,17 +55,19 @@ public class SRCR {
    	
     	do {
     		if(opt.equals("N") || opt.equals("n"))
-                { } else	
+                { query="regiao(RESTAURANTE,norte)."; } else	
     		if(opt.equals("C") || opt.equals("c"))
-                { } else
+                { query="regiao(RESTAURANTE,centro)."; } else
     		if(opt.equals("S") || opt.equals("s"))
-                { }	
+                { query="regiao(RESTAURANTE,sul)."; }	
                 else {
     			System.out.println("Opcão inválida!");
-                menuPrincipal();
+                //menuPrincipal();
             }
                 
     	} while(!((opt.equals("N")) || (opt.equals("n")) || (opt.equals("C")) || (opt.equals("c")) || (opt.equals("S")) || (opt.equals("s"))));
+        
+        return query;
     }
     
     public static String calcularDistancias() throws IOException, ClassNotFoundException {
@@ -99,15 +100,44 @@ public class SRCR {
         return query;
     }
     
+    public static String infoRest() throws IOException, ClassNotFoundException {
+	String query=null;
+        
+        System.out.println("#################### Info Restaurante #####################");
+	System.out.println("#                                                         #");
+    	System.out.println("#   1 - Listar restaurante                                #");
+    	System.out.println("#   2 - Restaurantes por região                           #");
+	System.out.println("#                                                         #");
+	System.out.println("#   Escolha uma opção                                     #");
+	System.out.println("###########################################################");
+    	String opt = in.next();
+   	
+    	do {
+    		if(opt.equals("1"))
+                { query="restaurante(NOME)."; } else
+    		if(opt.equals("2"))
+                { query=restRegiao(); } else
+    		if(opt.equals("3"))
+                { }	
+                else {
+    			System.out.println("Opcão inválida!");
+                menuPrincipal();
+            }
+                
+    	} while(!(opt.equals("1") || opt.equals("2") || opt.equals("3")));
+        
+        return query;
+    }
+    
     public static String menuPrincipal() throws IOException, ClassNotFoundException {
 	String query=null;
         
-        System.out.println("#################### Menu Pastelarias ######################");
+        System.out.println("#################### Menu Restaurantes ######################");
 	System.out.println("#                                                          #");
-    	System.out.println("#   1 - Listar pastelarias                                 #");
+    	System.out.println("#   1 - Info restaurantes                                  #");
     	System.out.println("#   2 - Calcular distâncias                                #");
-    	System.out.println("#   3 - Pastelarias por região                             #");
-	System.out.println("#   4 - Sair                                               #");
+        System.out.println("#                                                          #");
+	System.out.println("#   0 - Sair                                               #");
 	System.out.println("#                                                          #");
 	System.out.println("#   Escolha uma opção                                      #");
 	System.out.println("############################################################");
@@ -115,13 +145,11 @@ public class SRCR {
    	
     	do {
     		if(opt.equals("1"))
-                { query="restaurante(Nome,_,_,_)."; 
+                { query=infoRest(); 
                 } else	
     		if(opt.equals("2"))
                 { query=calcularDistancias(); } else
-    		if(opt.equals("3"))
-                { pastRegiao(); } else
-                if(opt.equals("4")) 
+                if(opt.equals("0")) 
                 { System.exit(0); }
                 else {
     			System.out.println("Opcão inválida!");
@@ -134,33 +162,26 @@ public class SRCR {
     }
   
     
-  public static void main(String[] argv) {
+  public static void main(String[] argv) throws SPException, IOException, Exception {
   
   SICStus sp;
     
-  try 
-    {
+
       sp = new SICStus(argv,null);
 
       sp.load("C:\\trabalho.pl");
       String queryS = null;
-      
-      queryS=menuPrincipal();
       HashMap map = new HashMap();
-      Query query = sp.openPrologQuery(queryS,map);
+      Query query = null;
       
-      
-      while (query.nextSolution()) {
-          System.out.println(map.toString());
-        }
-      System.out.println("asdasadsaas "+map.size());
-      
-      menuPrincipal();
-    }
-  catch ( Exception e )
-    {
-      e.printStackTrace();
-    }
-    
+      do{
+            queryS=menuPrincipal();
+            map = new HashMap();
+            query = sp.openPrologQuery(queryS,map);
+            
+            while (query.nextSolution()) {
+                System.out.println(map.toString());
+            }
+        }while(true);
     }
 }
