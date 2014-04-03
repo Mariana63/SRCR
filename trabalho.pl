@@ -9,64 +9,84 @@
 % SICStus PROLOG: definicoes iniciais
 :- op( 900,xfy,'::' ).
 :- dynamic '-'/1.
-:- dynamic restaurante/4.
+:- dynamic restaurante/1.
 :- dynamic tipo/2.
 :- dynamic coordenadas/3.
 :- dynamic regiao/2.
-:- dynamic localidade/2.
+:- dynamic zona/2.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado restaurante: Nome -> {V,F}
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Base de conhecimento inicial
+restaurante('Tasquinha').
+restaurante('Taberna').
+restaurante('ZeroZero').
 
-% coordenadas(cod_coor,coor_X,coor_Y)
-coordenadas(coor1,100,100).
-coordenadas(coor2,80,60).
+coordenadas('Tasquinha',1,1).
+coordenadas('Taberna',2,2).
+coordenadas('ZeroZero',3,3).
 
-% tipo(cod_tipo,nome).
-tipo(0, sem_takeAway).
-tipo(1, takeAway).
+regiao('Tasquinha','norte').
+regiao('Taberna','centro').
+regiao('ZeroZero','sul').
 
-% regiao(cod_regiao, nome_regiao).
-regiao(n,norte).
-regiao(c,centro).
-regiao(s,sul).
+zona('Tasquinha','braga').
+zona('Taberna','coimbra').
+zona('ZeroZero','lisboa').
 
-% localidade(nome_loc,cod_regiao).
-localidade(braga, n).
-
-% restaurante(nome_rest, nome_loc, cod_tipo, cod_coor).
-restaurante(atum,braga,1,coor1).
-restaurante(bacalhau,porto,0,coor2).
+tipo('Tasquinha',0).
+tipo('Taberna',1).
+tipo('ZeroZero', 0).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensão do predicado que não permite a insercao de conhecimento repetido
+% Restaurante
 
-+coordenadas(Cod_coor,Coor_X,Coor_Y) :: (solucoes( cod, (coordenadas(cod_coor,coor_X,coor_Y)), S),
-										comprimento( S,N ), N==1
-										).
++restaurante( Nome ) :: (solucoes(Nome, (restaurante(Nome)), S),
+						comprimento( S, N), N==1
+						).
 
-%-coordenadas(cod_coor,coor_X,coor_Y) :: ().
+-restaurante( Nome ) :: (-coordenadas(Nome,XX,YY), -zona(Nome,Z),
+						 -regiao(Nome,_), tipo(Nome,_)).
 
-+localidade(Loc,Regiao) :: (solucoes( Loc, (localidade(Loc,Regiao)), S),
-									comprimento( S,N ), N==1
-									).
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Coordenadas
 
-%-localidade(nome_loc,cod_regiao) :: (
-%									).
++coordenadas(Nome,XX,YY) :: (solucoes( Nome, (coordenadas(Nome,_,_)), S),
+							comprimento( S,N ), N==1, XX>=0, YY>=0
+							).
++coordenadas(Nome,XX,YY) :: (solucoes( (XX,YY), (coordenadas(_,XX,YY)), S),
+							comprimento( S,N ), N==1, XX>=0, YY>=0
+							).
++coordenadas(Nome,XX,YY) :: ( restaurante( Nome) ).
 
+%--------------------------------- - - - - - - - - - - - - - - - - - -- 
 
-+restaurante(Nome,Loc,Tipo,Coor) :: (solucoes( Nome, (restaurante(Nome,_,_,_)), S),
-									comprimento( S,N ), N==1
-									).
-%+restaurante(Nome,Loc,Tipo,Coor) :: ( coordenadas(Coor) ).
-+restaurante(Nome,Loc,Tipo,Coor) :: ( localidade(Loc,_) ).
+% Tipo
 
++tipo(Nome,X) :: (solucoes( Nome, (tipo(Nome,_)), S),
+							comprimento( S,N ), N==1, X=1;X=0 
+							).
++tipo(Nome,_) :: ( restaurante(Nome) ).
 
-%-restaurante(N,NLoc,cTipo,cCoor) :: (
-%									).
+%--------------------------------- - - - - - - - - - - - - - - - - - -- 
+
+% regiao
+
++regiao(Nome,X) :: (solucoes( Nome, (regiao(Nome,_)), S),
+							comprimento( S,N ), N==1, X='n';X='N';X='s';X='S';X='c';X='C'
+							).
++regiao(Nome,_) :: ( restaurante(Nome) ).
+
+%--------------------------------- - - - - - - - - - - - - - - - - - -- 
+
+% zona
+
++zona(Nome,X) :: (solucoes( Nome, (zona(Nome,_)), S),
+							comprimento( S,N ), N==1
+							).
++zona(Nome,_) :: ( restaurante(Nome) ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a remocao do conhecimento
