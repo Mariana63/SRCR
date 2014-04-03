@@ -52,20 +52,15 @@ public class SRCR {
 	System.out.println("#                                                   #");
 	System.out.println("#####################################################");
     	String opt = in.next();
-   	
-    	do {
-    		if(opt.equals("N") || opt.equals("n"))
-                { query="regiao(RESTAURANTE,norte)."; } else	
-    		if(opt.equals("C") || opt.equals("c"))
-                { query="regiao(RESTAURANTE,centro)."; } else
-    		if(opt.equals("S") || opt.equals("s"))
-                { query="regiao(RESTAURANTE,sul)."; }	
-                else {
-    			System.out.println("Opcão inválida!");
-                //menuPrincipal();
-            }
-                
-    	} while(!((opt.equals("N")) || (opt.equals("n")) || (opt.equals("C")) || (opt.equals("c")) || (opt.equals("S")) || (opt.equals("s"))));
+        
+    	if(opt.equals("N") || opt.equals("n"))
+               { query="regiao(RESTAURANTE,norte)."; } else	
+    	if(opt.equals("C") || opt.equals("c"))
+               { query="regiao(RESTAURANTE,centro)."; } else
+    	if(opt.equals("S") || opt.equals("s"))
+               { query="regiao(RESTAURANTE,sul)."; }	
+        else { System.out.println("Opcão inválida!");
+               query="erro"; }
         
         return query;
     }
@@ -83,20 +78,15 @@ public class SRCR {
 	System.out.println("###########################################################");
     	String opt = in.next();
    	
-    	do {
-    		if(opt.equals("1"))
+    	if(opt.equals("1"))
                 { query=distPastelarias(); } else
-    		if(opt.equals("2"))
+    	if(opt.equals("2"))
                 { } else
-    		if(opt.equals("3"))
+  	if(opt.equals("3"))
                 { }	
-                else {
-    			System.out.println("Opcão inválida!");
-                menuPrincipal();
-            }
+        else { System.out.println("Opcão inválida!");
+               query="erro"; }
                 
-    	} while(!(opt.equals("1") || opt.equals("2") || opt.equals("3")));
-        
         return query;
     }
     
@@ -111,21 +101,17 @@ public class SRCR {
 	System.out.println("#   Escolha uma opção                                     #");
 	System.out.println("###########################################################");
     	String opt = in.next();
-   	
-    	do {
-    		if(opt.equals("1"))
+   		
+        if(opt.equals("1"))
                 { query="restaurante(NOME)."; } else
-    		if(opt.equals("2"))
+    	if(opt.equals("2"))
                 { query=restRegiao(); } else
-    		if(opt.equals("3"))
+	if(opt.equals("3"))
                 { }	
-                else {
-    			System.out.println("Opcão inválida!");
-                menuPrincipal();
-            }
+        else { System.out.println("Opcão inválida!");
+               query="erro";
+             }
                 
-    	} while(!(opt.equals("1") || opt.equals("2") || opt.equals("3")));
-        
         return query;
     }
     
@@ -143,20 +129,16 @@ public class SRCR {
 	System.out.println("############################################################");
     	String opt = in.next();
    	
-    	do {
-    		if(opt.equals("1"))
+        if(opt.equals("1"))
                 { query=infoRest(); 
                 } else	
-    		if(opt.equals("2"))
+        if(opt.equals("2"))
                 { query=calcularDistancias(); } else
-                if(opt.equals("0")) 
+        if(opt.equals("0")) 
                 { System.exit(0); }
-                else {
-    			System.out.println("Opcão inválida!");
-                //menuPrincipal();
-            }
-                
-    	} while(!(opt.equals("1") || opt.equals("2") || opt.equals("3")));
+        else { System.out.println("Opcão inválida!");
+               query="erro"; 
+             }
         
         return query;
     }
@@ -176,11 +158,12 @@ public class SRCR {
       
       do{
             queryS=menuPrincipal();
+            if(queryS.equals("erro")==false){
             map = new HashMap();
             query = sp.openPrologQuery(queryS,map);
-            
-            while (query.nextSolution()) {
-                System.out.println(map.toString());
+                while (query.nextSolution()) {
+                    System.out.println(map.toString());
+                }
             }
         }while(true);
     }
