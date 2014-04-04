@@ -12,15 +12,17 @@
 :- dynamic ligacao/3.
 :- dynamic distancia/5.
 :- dynamic caminhosCusto/4.
-:- dynamic caminhoMinimo/4.
+:- dynamic custoMinimo/4.
 
 
 
 ligacao(braga, porto,R) :- distancia(5,9,3,7,R).
-ligacao(porto, coimbra, 10).
-ligacao(porto, aveiro,R) :- distancia(3,7,2,4,R).
-ligacao(aveiro, lisboa, 7).
-ligacao(coimbra, lisboa,100).
+ligacao(porto, coimbra,5).
+ligacao(porto, aveiro,7) :- distancia(3,7,2,4,R).
+ligacao(porto, leiria,612).
+ligacao(aveiro, lisboa, 6).
+ligacao(coimbra, lisboa,600).
+ligacao(leiria, lisboa, 4).
 
 
 ha_caminho(A, B) :- ligacao(A, B, _), !.
@@ -46,16 +48,19 @@ travessiaCusto(A, B, Visitados, Cam, Custo) :- ligacao(A, C, Custo2),
      											travessiaCusto(C, B, [C|Visitados], Cam, CustoResto),
      											Custo is Custo2 + CustoResto.
 
-caminhosCusto(A, B, Lc) :- setof(Cam/Custo, caminhoCusto(A, B, Cam,Custo), Lc), !.
+caminhosCusto(A, B, Lc) :- setof(Cam:Custo, caminhoCusto(A, B, Cam,Custo), Lc), !.
 caminhosCusto(_, _, []).
 
-menor([],COMP,R, CA).
-menor([C/X|XS], COMP, R, CA) :- X<COMP, R is X, CA=C ,menor(XS,X,R,CA).
-menor([C/X|XS], COMP, R, CA) :- X>=COMP, R is COMP, menor(XS,COMP,R,CA).
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Funão que devolve o custoMinimo entre duas cidades
+menor([],K,X,X,K).
+menor([C:X|XS],K,M,R,CA) :- X =< M, menor(XS,C,X,R,CA).
+menor([C:X|XS],K,M,R,CA) :- M <  X, menor(XS,K,M,R,CA).
 
-caminhoMinimo(A,B,R,CA) :- caminhosCusto(A,B,LC),
-						 menor(LC,99999,R,CA).
+custoMinimo(A,B,R,CA) :- caminhosCusto(A,B,[HC:HP|T]),
+						 menor([HC:HP|T],HC,HP,R,CA).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 nodos(Ln) :- setof(N,(X^C^ligacao(X, N, C);
              Y^C^ligacao(N, Y, C)), Ln), !.
