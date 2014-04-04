@@ -25,34 +25,40 @@ localizacao('lisboa', (1,6)).
 localizacao('aveiro', (1,9)).
 localizacao('coimbra', (1,5)).
 
+ligacao(braga, porto,R) :- distancia(5,9,3,7,R).
+ligacao(porto, coimbra,5).
+ligacao(porto, aveiro,7) :- distancia(3,7,2,4,R).
+ligacao(porto, leiria,612).
+ligacao(aveiro, lisboa, 6).
+ligacao(coimbra, lisboa,600).
+ligacao(leiria, lisboa, 4).
 
-
-ligacao(braga, porto).
-ligqcqo(braga, lisboa).
-ligacao(porto, coimbra).
-ligacao(porto, aveiro).
-ligacao(lisboa, aveiro).
-ligacao(coimbra, lisboa).
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Calcula Distancia entre 2 pontos
+distancia(X,Y,A,B,R) :- R is sqrt(((X-A)*(X-A))+((Y-B)*(Y-B))).
 
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
 
 procuraLocalizacao(X, R):- localizacao(X, R).
 
 
+
+
 distanciaAux((X1,Y1),(X2,Y2),R) :- R is sqrt(((X1-X2)*(X1-X2))+((Y1-Y2)*(Y1-Y2))).
-
-
-
-distancia(O, D, R) :- ha_caminho(O, D), procuraLocalizacao(O, RO), procuraLocalizacao(D, RD), distanciaAux(RO, RD, R).
+distancia(O, D, R) :- hacaminho(O, D), procuraLocalizacao(O, RO), procuraLocalizacao(D, RD), distanciaAux(RO, RD, R).
 
 
 %retorna sim ou não conforme houver caminha entre os pontos A e B.
-ha_caminho(A, B) :- ligacao(A, B), !.
-ha_caminho(A, B) :- ligacao(A, X), ha_caminho(X, B).
+hacaminho(A, B) :- ligacao(A, B), !.
+hacaminho(A, B) :- ligacao(A, X), hacaminho(X, B).
 
 
 
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
+
+ha_caminho(A, B) :- ligacao(A, B, _), !.
+ha_caminho(A, B) :- ligacao(A, X, _),
+ha_caminho(X, B).
 
 travessia(A, B, Visitados, [B|Visitados]) :- ligacao(A, B, _).
 travessia(A, B, Visitados, Cam) :- ligacao(A, C, _),
@@ -81,7 +87,7 @@ caminhosCusto(A, B, Lc) :- setof(Cam:Custo, caminhoCusto(A, B, Cam,Custo), Lc), 
 caminhosCusto(_, _, []).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Funão que devolve o custoMinimo entre duas cidades
+% Função que devolve o custoMinimo entre duas cidades
 menor([],K,X,X,K).
 menor([C:X|XS],K,M,R,CA) :- X =< M, menor(XS,C,X,R,CA).
 menor([C:X|XS],K,M,R,CA) :- M <  X, menor(XS,K,M,R,CA).
