@@ -177,5 +177,8 @@ listas([X,Y | XYS],R) :- listas([Y|XYS],RR),
 pertence(X,[X|L]).
 pertence(X,[Y|L]) :- X\==Y, pertence(X,L).
 
-ha_caminho(A, B) :- ligacao(A,R),
-					pertence(B,R).
+caminhoDireto(A, B) :- ligacao(A,R),
+					   pertence(B,R).
+
+procuraCaminho(O,D, C) :- ligacao(O, R),
+
