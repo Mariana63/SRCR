@@ -19,11 +19,18 @@
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
+tipoEntrega('braga',0).
+tipoEntrega('lisboa',1).
+tipoEntrega('aveiro',2).
+
 localizacao('braga', (2,1)).
 localizacao('porto', (2,5)).
 localizacao('lisboa', (1,6)).
 localizacao('aveiro', (1,9)).
 localizacao('coimbra', (1,5)).
+
+zona('braga','norte').
+zona('lisboa','centro').
 
 ligacao(braga, porto,R) :- distancia(5,9,3,7,R).
 ligacao(porto, coimbra,5).
@@ -38,6 +45,11 @@ ligacao(leiria, lisboa, 4).
 distancia(X,Y,A,B,R) :- R is sqrt(((X-A)*(X-A))+((Y-B)*(Y-B))).
 
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
+
+procuraTipo(X,R) :- tipoEntrega(X,R).
+
+procuraZona(X,R) :- zona(X,R).
+
 
 procuraLocalizacao(X, R):- localizacao(X, R).
 
