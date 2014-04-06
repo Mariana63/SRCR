@@ -94,11 +94,8 @@ public class SRCR {
             if(vez==0){
                 System.out.println("#   Insira o nome da cidade de partida:                   #");
                 cidade = in.nextLine();
-                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true)){
-                    token="]";
-                    vez++;
+                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true))
                     break;
-                }
                 else {
                 token="'"+cidade+"'";
                 cidades.add(token);
@@ -106,13 +103,10 @@ public class SRCR {
                 }
             else {
                 System.out.println("\n#   Insira o nome da "+(vez+1)+"ª cidade pretendida:                #");
-                System.out.println("#        (ou \"Fim\" para terminar o conjunto)              #");
+                System.out.println("#    (ou \"Fim\" para terminar o conjunto ou sequencia)     #");
                 cidade = in.nextLine();
-                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true)){
-                    token="]";
-                    vez++;
+                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true))
                     break;
-                }
                 else {
                 token="'"+cidade+"'";
                 cidades.add(token);
