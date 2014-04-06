@@ -18,10 +18,19 @@
 :- dynamic custoMinimo/4.
 :- dynamic caminhoMinimo/4.
 :- dynamic caminhoSeq/2.
-:- dynamic servTo/1.
+:- dynamic servTO/1.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 %----Base de conhecimento inicial----%
+
+servTO('Braga').
+servTO('Porto').
+servTO('Guarda').
+servTO('Coimbra').
+servTO('Lisboa').
+servTO('Santarem').
+servTO('Beja').
+servTO('Faro').
 
 % 0- normal, 1- express
 tipoEntrega('Viana_Castelo', 0).
@@ -42,8 +51,6 @@ tipoEntrega('Setubal', 1).
 tipoEntrega('Evora', 1).
 tipoEntrega('Beja', 1).
 tipoEntrega('Faro', 0).
-
-
 
 %----------------- - - - - - - - - - -  -  -  -  -   -
 
@@ -66,7 +73,6 @@ zona('Evora', 'Sul').
 zona('Beja', 'Sul').
 zona('Faro', 'Sul').
 
-
 %-------------------- - - - - - - - - - -  -  -  -  -   -
 % Localizações das cidades
 
@@ -88,7 +94,6 @@ localizacao('Setubal', (109,241)).
 localizacao('Evora', (215,245)).
 localizacao('Beja', (188,147)).
 localizacao('Faro', (200,50)).
-
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Ligações existentes entre cada nodo da empresa
@@ -153,18 +158,6 @@ ligacao('Beja','Faro',R) :- distancia('Beja','Faro',R).
 ligacao('Faro','Beja',R) :- distancia('Faro','Beja',R).
 ligacao('Faro','Setubal',R) :- distancia('Faro','Setubal',R).
 
-
-
-%----------------------------------------------------------------------------- - - - - - - - - - -  -  -  -  -   -
-servTo('Braga').
-servTo('Porto').
-servTo('Guarda').
-servTo('Coimbra').
-servTo('Lisboa').
-servTo('Santarem').
-servTo('Beja').
-servTo('Faro').
-
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
 
 %Calcula a distância entre duas cidades%
@@ -177,7 +170,7 @@ distancia(O, D, R) :- procuraLocalizacao(O, RO), procuraLocalizacao(D, RD), dist
 ha_caminho(A, B) :- ligacao(A, B, _), !.
 ha_caminho(A, B) :- ligacao(A, X, _), ha_caminho(X, B).
 
-
+procuraLocalizacao(X, R):- localizacao(X, R).
 
 travessia(A, B, Visitados, [B|Visitados]) :- ligacao(A, B, _).
 travessia(A, B, Visitados, Cam) :- ligacao(A, C, _),
@@ -241,17 +234,6 @@ conjuntoAux([VX,VY|VS],X,F) :- caminho(VX,VY,FFF),
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Funções - Calcula a distância miníma de uma dada sequência de pontos %
 
-caminhoMinimo(A,B,R,CA) :- caminhosCusto(A,B,LC),
-						 menor(LC,99999,R,CA).
-						 
-caminhoSeq([],0).
-caminhoSeq([X],0). 
-caminhoSeq([X,XS|XY],R) :- caminhoMinimo(X,XS,R2,LL),
-						    caminhoSeq([XS|XY],RES),
-						    R is R2+RES.
-
-
-
 sequenciaMinima(XS,R) :- seqAux(XS,0,R).
 
 seqAux([],R,R).
@@ -269,6 +251,15 @@ custoMinimo(A,B,R,CA) :- caminhosCusto(A,B,[HC:HP|T]),
 						 menor([HC:HP|T],HC,HP,R,CA).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado que permite a evolucao da empresa servTO
+
++servTO(Cidade) :: (solucoes(Cidade, (servTO(Cidade)), S),
+					comprimento( S, N), N==1
+					).
+
+-servTO( Nome ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a evolucao do conhecimento %
 
 evolucao( Termo ) :-
@@ -283,8 +274,6 @@ teste( [] ).
 teste( [A|B] ) :- A, teste( B ).
 
 solucoes( X,Y,Z ) :- findall( X,Y,Z ).
-
-
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a remocao do conhecimento %
@@ -303,6 +292,7 @@ remover( Termo ) :- retract( Termo ).
 						comprimento( S, N), N==1
 						).
 
+-servTO(Cidade).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Funções úteis %
