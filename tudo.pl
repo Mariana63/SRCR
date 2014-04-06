@@ -40,28 +40,6 @@ tipoEntrega('Evora', 1).
 tipoEntrega('Beja', 2).
 tipoEntrega('Faro', 0).
 
-
-localizacao('Viana_Castelo', (8,33)).
-localizacao('Braga', (9,31)).
-localizacao('Vila_Real', (11,30)).
-localizacao('Braganca', (15,33)).
-localizacao('Porto', (6,28)).
-localizacao('Aveiro', (6,25)).
-localizacao('Viseu', (10,25)).
-localizacao('Guarda', (14,24)).
-localizacao('Coimbra', (8,22)).
-localizacao('Castelo_Branco', (12,19)).
-localizacao('Leiria', (6,19)).
-localizacao('Santarem', (7,16)).
-localizacao('Lisboa', (5,12)).
-localizacao('Portalegre', (12,15)).
-localizacao('Setubal', (7,11)).
-localizacao('Evora', (10,12)).
-localizacao('Beja', (10,8)).
-localizacao('Faro', (10,2)).
-
-
-
 zona('Viana_Castelo', 'Norte').
 zona('Braga', 'Norte').
 zona('Vila_Real', 'Norte').
@@ -101,15 +79,88 @@ sigla('Viana_Castelo','VC').
 sigla('Vila_Real', 'VR').
 sigla('Viseu', 'V').
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% localizacoes das cidades
+localizacao('Viana_Castelo', (110,620)).
+localizacao('Braga', (143,578)).
+localizacao('Vila_Real', (200,567)).
+localizacao('Braganca', (301,612)).
+localizacao('Porto', (123,543)).
+localizacao('Aveiro', (114,498)).
+localizacao('Viseu', (196,500)).
+localizacao('Guarda', (286,476)).
+localizacao('Coimbra', (158,453)).
+localizacao('Castelo_Branco', (275,410)).
+localizacao('Leiria', (104,396)).
+localizacao('Santarem', (144,307)).
+localizacao('Lisboa', (100,260)).
+localizacao('Portalegre', (259,325)).
+localizacao('Setubal', (109,241)).
+localizacao('Evora', (215,245)).
+localizacao('Beja', (188,147)).
+localizacao('Faro', (200,50)).
 
-
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Ligações existentes entre cada nodo da empresa
+ligacao('Viana_Castelo','Braga',R) :- distancia('Viana_Castelo','Braga',R).
+ligacao('Braga','Viana_Castelo',R) :- distancia('Braga','Viana_Castelo',R).
 ligacao('Braga','Porto',R) :- distancia('Braga','Porto',R).
-ligacao('Porto','Coimbra',R) :- distancia('Porto','Coimbra',R).
+ligacao('Braga','Vila_Real',R) :- distancia('Braga','Vila_Real',R).
+ligacao('Vila_Real','Braga',R) :- distancia('Vila_Real','Braga',R).
+ligacao('Vila_Real','Braganca',R) :- distancia('Vila_Real','Braganca',R).
+ligacao('Vila_Real','Guarda',R) :- distancia('Vila_Real','Guarda',R).
+ligacao('Braganca','Vila_Real',R) :- distancia('Braganca','Vila_Real',R).
+ligacao('Braganca','Guarda',R) :- distancia('Braganca','Guarda',R).
+ligacao('Porto','Braga',R) :- distancia('Porto','Braga',R).
 ligacao('Porto','Aveiro',R) :- distancia('Porto','Aveiro',R).
-ligacao('Porto','Leiria',R) :- distancia('Porto','Leiria',R).
-ligacao('Aveiro','Lisboa',R) :- distancia('Aveiro','Lisboa',R).
-ligacao('Coimbra','Lisboa',R) :- distancia('Coimbra','Lisboa',R).
+%ligacao('Porto','Coimbra',R) :- distancia('Porto','Coimbra',R).
+ligacao('Porto','Viseu',R) :- distancia('Porto','Viseu',R).
+ligacao('Aveiro','Porto',R) :- distancia('Aveiro','Porto',R).
+ligacao('Aveiro','Coimbra',R) :- distancia('Aveiro','Coimbra',R).
+ligacao('Aveiro','Leiria',R) :- distancia('Aveiro','Leiria',R).
+%ligacao('Coimbra','Porto',R) :- distancia('Coimbra','Porto',R).
+ligacao('Coimbra','Aveiro',R) :- distancia('Coimbra','Aveiro',R).
+ligacao('Coimbra','Castelo_Branco',R) :- distancia('Coimbra','Castelo_Branco',R).
+ligacao('Viseu','Porto',R) :- distancia('Viseu','Porto',R).
+ligacao('Viseu','Castelo_Branco',R) :- distancia('Viseu','Castelo_Branco',R).
+%ligacao('Viseu','Guarda',R) :- distancia('Viseu','Guarda',R).
+ligacao('Guarda','Vila_Real',R) :- distancia('Guarda','Vila_Real',R).
+%ligacao('Guarda','Viseu',R) :- distancia('Guarda','Viseu',R).
+ligacao('Guarda','Castelo_Branco',R) :- distancia('Guarda','Castelo_Branco',R).
+ligacao('Guarda','Braganca',R) :- distancia('Guarda','Braganca',R).
+ligacao('Castelo_Branco','Guarda',R) :- distancia('Castelo_Branco','Guarda',R).
+ligacao('Castelo_Branco','Viseu',R) :- distancia('Castelo_Branco','Viseu',R).
+ligacao('Castelo_Branco','Coimbra',R) :- distancia('Castelo_Branco','Coimbra',R).
+ligacao('Castelo_Branco','Santarem',R) :- distancia('Castelo_Branco','Santarem',R).
+ligacao('Castelo_Branco','Portalegre',R) :- distancia('Castelo_Branco','Portalegre',R).
+ligacao('Leiria','Aveiro',R) :- distancia('Leiria','Aveiro',R).
 ligacao('Leiria','Lisboa',R) :- distancia('Leiria','Lisboa',R).
+ligacao('Leiria','Santarem',R) :- distancia('Leiria','Santarem',R).
+ligacao('Lisboa','Leiria',R) :- distancia('Lisboa','Leiria',R).
+ligacao('Lisboa','Santarem',R) :- distancia('Lisboa','Santarem',R).
+ligacao('Lisboa','Setubal',R) :- distancia('Lisboa','Setubal',R).
+ligacao('Santarem','Leiria',R) :- distancia('Santarem','Leiria',R).
+ligacao('Santarem','Lisboa',R) :- distancia('Santarem','Lisboa',R).
+%ligacao('Santarem','Setubal',R) :- distancia('Santarem','Setubal',R).
+ligacao('Santarem','Castelo_Branco',R) :- distancia('Santarem','Castelo_Branco',R).
+ligacao('Santarem','Evora',R) :- distancia('Santarem','Evora',R).
+ligacao('Portalegre','Castelo_Branco',R) :- distancia('Portalegre','Castelo_Branco',R).
+ligacao('Portalegre','Evora',R) :- distancia('Portalegre','Evora',R).
+ligacao('Portalegre','Beja',R) :- distancia('Portalegre','Beja',R).
+ligacao('Setubal','Lisboa',R) :- distancia('Setubal','Lisboa',R).
+%ligacao('Setubal','Santarem',R) :- distancia('Setubal','Santarem',R).
+ligacao('Setubal','Beja',R) :- distancia('Setubal','Beja',R).
+ligacao('Setubal','Faro',R) :- distancia('Setubal','Faro',R).
+ligacao('Evora','Portalegre',R) :- distancia('Evora','Portalegre',R).
+ligacao('Evora','Santarem',R) :- distancia('Evora','Santarem',R).
+ligacao('Evora','Beja',R) :- distancia('Evora','Beja',R).
+ligacao('Beja','Portalegre',R) :- distancia('Beja','Portalegre',R).
+ligacao('Beja','Evora',R) :- distancia('Beja','Evora',R).
+ligacao('Beja','Portalegre',R) :- distancia('Beja','Portalegre',R).
+ligacao('Beja','Setubal',R) :- distancia('Beja','Setubal',R).
+ligacao('Beja','Faro',R) :- distancia('Beja','Faro',R).
+ligacao('Faro','Beja',R) :- distancia('Faro','Beja',R).
+ligacao('Faro','Setubal',R) :- distancia('Faro','Setubal',R).
 
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
 
