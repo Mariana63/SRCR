@@ -18,6 +18,7 @@
 :- dynamic custoMinimo/4.
 :- dynamic caminhoMinimo/4.
 :- dynamic caminhoSeq/2.
+:- dynamic servTo/1.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 %----Base de conhecimento inicial----%
@@ -42,13 +43,9 @@ tipoEntrega('Evora', 1).
 tipoEntrega('Beja', 1).
 tipoEntrega('Faro', 0).
 
-%----FUNÇÕES----%
-
-procuraTipo(X,R) :- tipoEntrega(X,R).
 
 
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%----Base de conhecimento inicial----%
+%----------------- - - - - - - - - - -  -  -  -  -   -
 
 zona('Viana_Castelo', 'Norte').
 zona('Braga', 'Norte').
@@ -69,36 +66,8 @@ zona('Evora', 'Sul').
 zona('Beja', 'Sul').
 zona('Faro', 'Sul').
 
-%----FUNÇÕES----%
 
-procuraZona(X,R) :- zona(X,R).
-
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%----Base de conhecimento inicial----%
-
-sigla('Aveiro', 'A').
-sigla('Beja', 'BJ').
-sigla('Braga', 'BRG').
-sigla('Braganca', 'BG').
-sigla('Castelo_Branco', 'CB').
-sigla('Coimbra', 'C').
-sigla('Evora', 'E').
-sigla('Faro', 'F').
-sigla('Guarda', 'G').
-sigla('Leiria', 'LR').
-sigla('Lisboa', 'LX').
-sigla('Portalegre', 'PL').
-sigla('Porto', 'PT').
-sigla('Santarem', 'STR').
-sigla('Setubal', 'ST').
-sigla('Viana_Castelo','VC').
-sigla('Vila_Real', 'VR').
-sigla('Viseu', 'V').
-
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%----Base de conhecimento inicial----%
+%-------------------- - - - - - - - - - -  -  -  -  -   -
 % Localizações das cidades
 
 localizacao('Viana_Castelo', (110,620)).
@@ -120,14 +89,8 @@ localizacao('Evora', (215,245)).
 localizacao('Beja', (188,147)).
 localizacao('Faro', (200,50)).
 
-%----FUNÇÕES----%
-
-procuraLocalizacao(X, R):- localizacao(X, R).
-
-
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%----Base de conhecimento inicial----%
 % Ligações existentes entre cada nodo da empresa
 
 ligacao('Viana_Castelo','Braga',R) :- distancia('Viana_Castelo','Braga',R).
@@ -190,6 +153,18 @@ ligacao('Beja','Faro',R) :- distancia('Beja','Faro',R).
 ligacao('Faro','Beja',R) :- distancia('Faro','Beja',R).
 ligacao('Faro','Setubal',R) :- distancia('Faro','Setubal',R).
 
+
+
+%----------------------------------------------------------------------------- - - - - - - - - - -  -  -  -  -   -
+servTo('Braga').
+servTo('Porto').
+servTo('Guarda').
+servTo('Coimbra').
+servTo('Lisboa').
+servTo('Santarem').
+servTo('Beja').
+servTo('Faro').
+
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
 
 %Calcula a distância entre duas cidades%
@@ -197,26 +172,28 @@ distanciaAux((X1,Y1),(X2,Y2),R) :- R is sqrt(((X1-X2)*(X1-X2))+((Y1-Y2)*(Y1-Y2))
 distancia(O, D, R) :- procuraLocalizacao(O, RO), procuraLocalizacao(D, RD), distanciaAux(RO, RD, R).
 
 
-%Retorna sim caso haja caminho entre os pontos A e B, retorna não caso não haja%
-hacaminho(A, B) :- ligacao(A, B,_), !.
-hacaminho(A, B) :- ligacao(A, X,_), hacaminho(X, B).
 
-
-%------------------------------------------------------------- FUNÇÕES ----------------------------------------------
-
+%Retorna sim caso haja caminho entre os pontos A e B, retorna não caso não haja
 ha_caminho(A, B) :- ligacao(A, B, _), !.
 ha_caminho(A, B) :- ligacao(A, X, _), ha_caminho(X, B).
 
+
+
 travessia(A, B, Visitados, [B|Visitados]) :- ligacao(A, B, _).
 travessia(A, B, Visitados, Cam) :- ligacao(A, C, _),
-									C \== B,
-									\+ member(C, Visitados),
-									travessia(C, B, [C|Visitados], Cam).
+								   C \== B,
+								   \+ member(C, Visitados),
+								   travessia(C, B, [C|Visitados], Cam).
+
+
 
 caminho(A, B, Cam) :- travessia(A, B, [A], Ca), inverter(Ca,Cam).
 
+
 caminhos(A, B, Lc) :- setof(Cam, caminho(A, B, Cam), Lc), !.
 caminhos(_, _, []).
+
+
 
 travessiaCusto(A, B, Visitados,[B|Visitados], Custo1) :- ligacao(A, B, Custo1).
 travessiaCusto(A, B, Visitados, Cam, Custo) :- ligacao(A, C, Custo2),
@@ -274,7 +251,6 @@ caminhoSeq([X,XS|XY],R) :- caminhoMinimo(X,XS,R2,LL),
 						    R is R2+RES.
 
 
-%% 
 
 sequenciaMinima(XS,R) :- seqAux(XS,0,R).
 
@@ -308,7 +284,7 @@ teste( [A|B] ) :- A, teste( B ).
 
 solucoes( X,Y,Z ) :- findall( X,Y,Z ).
 
-comprimento( S,N ) :- length( S,N ).
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a remocao do conhecimento %
@@ -319,6 +295,14 @@ remocao( Termo ) :-
     remover( Termo ).
 
 remover( Termo ) :- retract( Termo ).
+
+
+% Invariante Estrutural: nao permite a insercao de conhecimento repetido
+
++servTo(Cidade) :: (solucoes(Cidade, (servTo(Cidade)), S),
+						comprimento( S, N), N==1
+						).
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Funções úteis %
@@ -337,3 +321,6 @@ apagar(N,[X|XS],[X|L]) :- N\==X, apagar(N,XS,L).
 % Extensao do meta-predicado nao: Questao -> {V,F}
 nao(X) :- X,!,fail.
 nao(X).
+
+comprimento( S,N ) :- length( S,N ).
+
