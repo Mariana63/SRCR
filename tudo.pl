@@ -20,25 +20,35 @@
 :- dynamic caminhoSeq/2.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% 0- normal, 1- express, 2- ambas ????
+%----Base de conhecimento inicial----%
+
+% 0- normal, 1- express
 tipoEntrega('Viana_Castelo', 0).
-tipoEntrega('Braga', 2).
+tipoEntrega('Braga', 0).
 tipoEntrega('Vila_Real', 1).
-tipoEntrega('Braganca', 2).
+tipoEntrega('Braganca', 0).
 tipoEntrega('Porto', 1).
-tipoEntrega('Aveiro', 2).
-tipoEntrega('Viseu', 2).
+tipoEntrega('Aveiro', 0).
+tipoEntrega('Viseu', 1).
 tipoEntrega('Guarda', 1).
 tipoEntrega('Coimbra', 1).
 tipoEntrega('Castelo_Branco', 0).
 tipoEntrega('Leiria', 0).
 tipoEntrega('Santarem', 1).
 tipoEntrega('Portalegre',0).
-tipoEntrega('Lisboa', 2).
+tipoEntrega('Lisboa', 0).
 tipoEntrega('Setubal', 1).
 tipoEntrega('Evora', 1).
-tipoEntrega('Beja', 2).
+tipoEntrega('Beja', 1).
 tipoEntrega('Faro', 0).
+
+%----FUNÇÕES----%
+
+procuraTipo(X,R) :- tipoEntrega(X,R).
+
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%----Base de conhecimento inicial----%
 
 zona('Viana_Castelo', 'Norte').
 zona('Braga', 'Norte').
@@ -59,6 +69,13 @@ zona('Evora', 'Sul').
 zona('Beja', 'Sul').
 zona('Faro', 'Sul').
 
+%----FUNÇÕES----%
+
+procuraZona(X,R) :- zona(X,R).
+
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%----Base de conhecimento inicial----%
 
 sigla('Aveiro', 'A').
 sigla('Beja', 'BJ').
@@ -79,8 +96,11 @@ sigla('Viana_Castelo','VC').
 sigla('Vila_Real', 'VR').
 sigla('Viseu', 'V').
 
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% localizacoes das cidades
+%----Base de conhecimento inicial----%
+% Localizações das cidades
+
 localizacao('Viana_Castelo', (110,620)).
 localizacao('Braga', (143,578)).
 localizacao('Vila_Real', (200,567)).
@@ -100,8 +120,16 @@ localizacao('Evora', (215,245)).
 localizacao('Beja', (188,147)).
 localizacao('Faro', (200,50)).
 
+%----FUNÇÕES----%
+
+procuraLocalizacao(X, R):- localizacao(X, R).
+
+
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%----Base de conhecimento inicial----%
 % Ligações existentes entre cada nodo da empresa
+
 ligacao('Viana_Castelo','Braga',R) :- distancia('Viana_Castelo','Braga',R).
 ligacao('Braga','Viana_Castelo',R) :- distancia('Braga','Viana_Castelo',R).
 ligacao('Braga','Porto',R) :- distancia('Braga','Porto',R).
@@ -164,20 +192,12 @@ ligacao('Faro','Setubal',R) :- distancia('Faro','Setubal',R).
 
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
 
-procuraTipo(X,R) :- tipoEntrega(X,R).
-
-
-procuraZona(X,R) :- zona(X,R).
-
-
-procuraLocalizacao(X, R):- localizacao(X, R).
-
-
+%Calcula a distância entre duas cidades%
 distanciaAux((X1,Y1),(X2,Y2),R) :- R is sqrt(((X1-X2)*(X1-X2))+((Y1-Y2)*(Y1-Y2))).
 distancia(O, D, R) :- procuraLocalizacao(O, RO), procuraLocalizacao(D, RD), distanciaAux(RO, RD, R).
 
 
-%retorna sim ou não conforme houver caminho entre os pontos A e B.
+%Retorna sim caso haja caminho entre os pontos A e B, retorna não caso não haja%
 hacaminho(A, B) :- ligacao(A, B,_), !.
 hacaminho(A, B) :- ligacao(A, X,_), hacaminho(X, B).
 
@@ -215,7 +235,7 @@ nodos(Ln) :- setof(N,(X^C^ligacao(X, N, C);
 nodos([]).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Função Conjuntos
+% Função - Calcula a distância de uma dado conjunto de pontos %
 
 conjuntoCusto(XS, Cu, Path) :- conjunto(XS,Pa),
 							   removePathIgual(Pa,Pa,Path),
@@ -242,7 +262,7 @@ conjuntoAux([VX,VY|VS],X,F) :- caminho(VX,VY,FFF),
 							   conjuntoAux([VY|VS],FF,F).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Funções - distância miníma de uma dada sequencia
+% Funções - Calcula a distância miníma de uma dada sequência de pontos %
 
 caminhoMinimo(A,B,R,CA) :- caminhosCusto(A,B,LC),
 						 menor(LC,99999,R,CA).
@@ -263,7 +283,7 @@ seqAux([X],R,R).
 seqAux([X,Y|XYS],R,RRR) :- custoMinimo(X,Y,RR,_), soma(RR,R,R2), seqAux([Y|XYS],R2,RRR).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Função que devolve o custoMinimo entre duas cidades
+% Função que devolve o custoMinimo entre duas cidades %
 
 menor([],K,X,X,K).
 menor([C:X|XS],K,M,R,CA) :- X =< M, menor(XS,C,X,R,CA).
@@ -273,7 +293,7 @@ custoMinimo(A,B,R,CA) :- caminhosCusto(A,B,[HC:HP|T]),
 						 menor([HC:HP|T],HC,HP,R,CA).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensão do predicado que permite a evolucao do conhecimento
+% Extensão do predicado que permite a evolucao do conhecimento %
 
 evolucao( Termo ) :-
     solucoes( Invariante,+Termo::Invariante,Lista ),
@@ -291,7 +311,7 @@ solucoes( X,Y,Z ) :- findall( X,Y,Z ).
 comprimento( S,N ) :- length( S,N ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensão do predicado que permite a remocao do conhecimento
+% Extensão do predicado que permite a remocao do conhecimento %
 
 remocao( Termo ) :-
  	solucoes( Invariante,-Termo::Invariante,Lista ),
@@ -301,7 +321,7 @@ remocao( Termo ) :-
 remover( Termo ) :- retract( Termo ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Funções úteis
+% Funções úteis %
 concatena([],L2,L2).
 concatena([X|R], L2, [X|L]) :- concatena(R,L2,L).
 
