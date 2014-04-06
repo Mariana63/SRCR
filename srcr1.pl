@@ -19,6 +19,8 @@
 :- dynamic conjuntoCusto/4.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%Base de conhecimento inicial%
+
 % 0- normal, 1- express, 2- ambas ????
 tipoEntrega('Viana_Castelo', 0).
 tipoEntrega('Braga', 2).
@@ -39,6 +41,8 @@ tipoEntrega('Evora', 1).
 tipoEntrega('Beja', 2).
 tipoEntrega('Faro', 0).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%Base de conhecimento inicial%
 
 localizacao('Viana_Castelo', (8,33)).
 localizacao('Braga', (9,31)).
@@ -59,7 +63,8 @@ localizacao('Evora', (10,12)).
 localizacao('Beja', (10,8)).
 localizacao('Faro', (10,2)).
 
-
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%Base de conhecimento inicial%
 
 zona('Viana_Castelo', 'Norte').
 zona('Braga', 'Norte').
@@ -80,6 +85,8 @@ zona('Evora', 'Sul').
 zona('Beja', 'Sul').
 zona('Faro', 'Sul').
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%Base de conhecimento inicial%
 
 sigla('Aveiro', 'A').
 sigla('Beja', 'BJ').
@@ -100,8 +107,8 @@ sigla('Viana_Castelo','VC').
 sigla('Vila_Real', 'VR').
 sigla('Viseu', 'V').
 
-
-
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%Base de conhecimento inicial%
 ligacao(braga, porto,R) :- distancia(5,9,3,7,R).
 ligacao(porto, coimbra,5).
 ligacao(porto, aveiro,7) :- distancia(3,7,2,4,R).
@@ -110,9 +117,11 @@ ligacao(aveiro, lisboa, 6).
 ligacao(coimbra, lisboa,600).
 ligacao(leiria, lisboa, 4).
 
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Calcula Distancia entre 2 pontos
 distancia(X,Y,A,B,R) :- R is sqrt(((X-A)*(X-A))+((Y-B)*(Y-B))).
+
 
 
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
@@ -121,18 +130,11 @@ procuraTipo(X,R) :- tipoEntrega(X,R).
 
 procuraZona(X,R) :- zona(X,R).
 
-
 procuraLocalizacao(X, R):- localizacao(X, R).
-
-
 
 
 distanciaAux((X1,Y1),(X2,Y2),R) :- R is sqrt(((X1-X2)*(X1-X2))+((Y1-Y2)*(Y1-Y2))).
 distancia(O, D, R) :- hacaminho(O, D), procuraLocalizacao(O, RO), procuraLocalizacao(D, RD), distanciaAux(RO, RD, R).
-
-
-
-
 
 
 %retorna sim ou não conforme houver caminho entre os pontos A e B.
