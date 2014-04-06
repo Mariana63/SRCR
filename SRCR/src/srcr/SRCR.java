@@ -7,6 +7,7 @@
 package srcr;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import se.sics.jasper.SICStus;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -21,93 +22,195 @@ public class SRCR {
 
     public static Scanner in = new Scanner(System.in);
   
-    public static String distPastelarias() throws IOException, ClassNotFoundException {
+
+    public static String menuConjunto() throws IOException, ClassNotFoundException {
 	String query=null;
         
-        System.out.println("#################### Menu Distancias ######################");
+        System.out.println("\n################ Distancia entre cidades ##################");
 	System.out.println("#                                                         #");
-    	in.nextLine();
-        System.out.println("#   Insira a pastelaria origem:                           #");
-        String origem = in.nextLine();
-    	System.out.println("#   Insira a pastelaria destino:                          #");
-    	String destino = in.nextLine();
+    	System.out.println("#   Para cada cidade que pretenda passar, insira o seu    #");
+        System.out.println("#   nome, seguido de ENTER.                               #");
+        System.out.println("#   Assim que tenha  terminado  o trajecto pretendido,    #");
+        System.out.println("#   escreva a palavra FIM, mais ENTER.                    \n#");
+        in.nextLine();
+        String cidade="";
+        String token="";
+        ArrayList<String> cidades = new ArrayList<String> (); 
+        int vez=0;
+        do{
+            if(vez==0){
+                System.out.println("#   Insira o nome da cidade de partida:                   #");
+                cidade = in.nextLine();
+                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true)){
+                    token="]";
+                    vez++;
+                    break;
+                }
+                else {
+                token="'"+cidade+"'";
+                cidades.add(token);
+                vez++;}
+                }
+            else {
+                System.out.println("\n#   Insira o nome da "+(vez+1)+"ª cidade pretendida:                #");
+                System.out.println("#        (ou \"Fim\" para terminar o conjunto)              #");
+                cidade = in.nextLine();
+                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true)){
+                    token="]";
+                    vez++;
+                    break;
+                }
+                else {
+                token="'"+cidade+"'";
+                cidades.add(token);
+                vez++;}
+                }
+        }while((cidade.equals("FIM")==false)||(cidade.equals("Fim")==false)||(cidade.equals("fim")==false)); 
+        
         System.out.println("#                                                         #");
 	System.out.println("###########################################################");
-        
-        query="verifica('"+origem+"','"+destino+"',DISTANCIA).";
+        String lista = cidades.toString();
+        //System.out.println(lista);
+        query="conjuntoCusto("+lista+",DISTANCIA,CONJUNTO).";
         
         return query;
     }
     
-    public static String restRegiao() throws IOException, ClassNotFoundException {
+    public static String menuSequencia() throws IOException, ClassNotFoundException {
 	String query=null;
-        System.out.println("############## Pastelarias por região ###############");
-	System.out.println("#                                                   #");
-    	System.out.println("#   De que região pretende ver                      #");
-    	System.out.println("#                                                   #");
-	System.out.println("#   Prima:                                          #");
-	System.out.println("#            N - Norte                              #");
-	System.out.println("#            C - Centro                             #");
-	System.out.println("#            S - Sul                                #");
-	System.out.println("#                                                   #");
-	System.out.println("#####################################################");
+        
+        System.out.println("\n################ Distancia entre cidades ##################");
+	System.out.println("#                                                         #");
+    	System.out.println("#   Para cada cidade que pretenda passar, insira o seu    #");
+        System.out.println("#   nome, seguido de ENTER.                               #");
+        System.out.println("#   Assim que tenha  terminado  o trajecto pretendido,    #");
+        System.out.println("#   escreva a palavra FIM, mais ENTER.                    \n#");
+        in.nextLine();
+        String cidade="";
+        String token="";
+        ArrayList<String> cidades = new ArrayList<String> (); 
+        int vez=0;
+        do{
+            if(vez==0){
+                System.out.println("#   Insira o nome da cidade de partida:                   #");
+                cidade = in.nextLine();
+                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true)){
+                    token="]";
+                    vez++;
+                    break;
+                }
+                else {
+                token="'"+cidade+"'";
+                cidades.add(token);
+                vez++;}
+                }
+            else {
+                System.out.println("\n#   Insira o nome da "+(vez+1)+"ª cidade pretendida:                #");
+                System.out.println("#        (ou \"Fim\" para terminar o conjunto)              #");
+                cidade = in.nextLine();
+                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true)){
+                    token="]";
+                    vez++;
+                    break;
+                }
+                else {
+                token="'"+cidade+"'";
+                cidades.add(token);
+                vez++;}
+                }
+        }while((cidade.equals("FIM")==false)||(cidade.equals("Fim")==false)||(cidade.equals("fim")==false)); 
+        
+        System.out.println("#                                                         #");
+	System.out.println("###########################################################");
+        String lista = cidades.toString();
+        //System.out.println(lista);
+        query="caminhoSeq("+lista+",DISTANCIA).";
+        
+        return query;
+    }
+    
+    public static String menuCidadeRegiao() throws IOException, ClassNotFoundException {
+	String query=null;
+        System.out.println("\n################### Cidades por região ####################");
+	System.out.println("#                                                         #");
+    	System.out.println("#   De que zona do país pretende ver                      #");
+    	System.out.println("#                                                         #");
+	System.out.println("#   Prima:                                                #");
+	System.out.println("#            N - Norte                                    #");
+	System.out.println("#            C - Centro                                   #");
+	System.out.println("#            S - Sul                                      #");
+	System.out.println("#                                                         #");
+	System.out.println("###########################################################");
     	String opt = in.next();
-        
-    	if(opt.equals("N") || opt.equals("n"))
-               { query="regiao(RESTAURANTE,norte)."; } else	
-    	if(opt.equals("C") || opt.equals("c"))
-               { query="regiao(RESTAURANTE,centro)."; } else
-    	if(opt.equals("S") || opt.equals("s"))
-               { query="regiao(RESTAURANTE,sul)."; }	
-        else { System.out.println("Opcão inválida!");
-               query="erro"; }
-        
+        switch (opt) {
+            case "N":
+            case "n":
+                query="zona(CIDADE,'Norte').";
+                break;
+            case "C":
+            case "c":
+                query="zona(CIDADE,'Centro').";
+                break;
+            case "S":
+            case "s":
+                query="zona(CIDADE,'Sul').";
+                break;
+            default:
+                System.out.println("Opcão inválida!");
+                query="erro";
+                break;
+        }
         return query;
     }
     
-    public static String calcularDistancias() throws IOException, ClassNotFoundException {
+    public static String menuPercursos() throws IOException, ClassNotFoundException {
 	String query=null;
         
-        System.out.println("#################### Menu Distancias ######################");
+        System.out.println("\n################# Distâncias de Percursos #################");
 	System.out.println("#                                                         #");
-    	System.out.println("#   1 - Distancia entre 2 pastelarias                     #");
-    	System.out.println("#   2 - Lista de pontos a percorrer                       #");
-    	System.out.println("#   3 - Distancia mínima                                  #");
+    	System.out.println("#   1 - Conjunto de pontos a percorrer                    #");
+    	System.out.println("#   2 - Distância mínima para uma sequência               #");
 	System.out.println("#                                                         #");
-	System.out.println("#   Escolha uma opção                                     #");
+	System.out.println("#   Escolha uma opção:                                    #");
 	System.out.println("###########################################################");
     	String opt = in.next();
    	
     	if(opt.equals("1"))
-                { query=distPastelarias(); } else
+                { query=menuConjunto(); } else
     	if(opt.equals("2"))
-                { } else
-  	if(opt.equals("3"))
-                { }	
+                { query=menuSequencia(); }
         else { System.out.println("Opcão inválida!");
                query="erro"; }
                 
         return query;
     }
     
-    public static String infoRest() throws IOException, ClassNotFoundException {
+    public static String menuInfoCidades() throws IOException, ClassNotFoundException {
 	String query=null;
         
-        System.out.println("#################### Info Restaurante #####################");
+        System.out.println("\n########### Informações dos pontos de entrega  ############");
 	System.out.println("#                                                         #");
-    	System.out.println("#   1 - Listar restaurante                                #");
-    	System.out.println("#   2 - Restaurantes por região                           #");
+    	System.out.println("#   1 - Listar todos os pontos de entrega do país         #");
+        System.out.println("#   2 - Coordenadas cartesianas                           #");
+    	System.out.println("#   3 - Cidades por região                                #");
+        System.out.println("#   4 - Tipo de entrega em cada ponto                     #");
+        System.out.println("#   5 - Ligações existentes entre cidades                 #");
 	System.out.println("#                                                         #");
-	System.out.println("#   Escolha uma opção                                     #");
+	System.out.println("#   Escolha uma opção:                                    #");
 	System.out.println("###########################################################");
     	String opt = in.next();
    		
         if(opt.equals("1"))
-                { query="restaurante(NOME)."; } else
+                { query="sigla(CIDADE,SIGLA)."; } else
     	if(opt.equals("2"))
-                { query=restRegiao(); } else
-	if(opt.equals("3"))
-                { }	
+                { query="localizacao(CIDADE,COORDENADAS)."; } else
+        if(opt.equals("3"))
+                { query=menuCidadeRegiao(); } else	
+        if(opt.equals("4"))
+                { System.out.println("\ntipo: \n 0 - Normal\n 1 - Express\n");
+                    query="tipoEntrega(CIDADE,TIPO)."; } else
+        if(opt.equals("5"))
+                { query="ligacao(ÍNICIO,FIM,DISTANCIA)."; }
         else { System.out.println("Opcão inválida!");
                query="erro";
              }
@@ -118,10 +221,10 @@ public class SRCR {
     public static String menuPrincipal() throws IOException, ClassNotFoundException {
 	String query=null;
         
-        System.out.println("#################### Menu Restaurantes ######################");
+        System.out.println("\n################ Transporte de Mercadorias #################");
 	System.out.println("#                                                          #");
-    	System.out.println("#   1 - Info restaurantes                                  #");
-    	System.out.println("#   2 - Calcular distâncias                                #");
+    	System.out.println("#   1 - Informações dos pontos de entrega                  #");
+    	System.out.println("#   2 - Percursos entre cidades                            #");
         System.out.println("#                                                          #");
 	System.out.println("#   0 - Sair                                               #");
 	System.out.println("#                                                          #");
@@ -130,10 +233,10 @@ public class SRCR {
     	String opt = in.next();
    	
         if(opt.equals("1"))
-                { query=infoRest(); 
+                { query=menuInfoCidades(); 
                 } else	
         if(opt.equals("2"))
-                { query=calcularDistancias(); } else
+                { query=menuPercursos(); } else
         if(opt.equals("0")) 
                 { System.exit(0); }
         else { System.out.println("Opcão inválida!");
@@ -151,13 +254,12 @@ public class SRCR {
 
       sp = new SICStus(argv,null);
 
-      sp.load("C:\\trabalho.pl");
+      sp.load("C:\\tudo.pl");
       String queryS = null;
       HashMap map = new HashMap();
       Query query = null;
       
-      do{
-            queryS=menuPrincipal();
+      do{   queryS=menuPrincipal();
             if(queryS.equals("erro")==false){
             map = new HashMap();
             query = sp.openPrologQuery(queryS,map);
