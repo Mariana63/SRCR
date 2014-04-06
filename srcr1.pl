@@ -16,6 +16,7 @@
 :- dynamic procuraLocalizacao/2.
 :- dynamic caminhosCusto/4.
 :- dynamic custoMinimo/4.
+:- dynamic 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % 0- normal, 1- express, 2- ambas ????
@@ -147,15 +148,10 @@ travessia(A, B, Visitados, Cam) :- ligacao(A, C, _),
 									\+ member(C, Visitados),
 									travessia(C, B, [C|Visitados], Cam).
 
-
-caminho(A, B, Cam) :- travessia(A, B, [A], Cam).
-
+caminho(A, B, Cam) :- travessia(A, B, [A], Ca), inverter(Ca,Cam).
 
 caminhos(A, B, Lc) :- setof(Cam, caminho(A, B, Cam), Lc), !.
 caminhos(_, _, []).
-
-caminhoCusto(A, B, Cam, Custo) :- travessiaCusto(A, B, [A], Cam, Custo).
-
 
 travessiaCusto(A, B, Visitados,[B|Visitados], Custo1) :- ligacao(A, B, Custo1).
 travessiaCusto(A, B, Visitados, Cam, Custo) :- ligacao(A, C, Custo2),
@@ -164,11 +160,45 @@ travessiaCusto(A, B, Visitados, Cam, Custo) :- ligacao(A, C, Custo2),
      											travessiaCusto(C, B, [C|Visitados], Cam, CustoResto),
      											Custo is Custo2 + CustoResto.
 
+caminhoCusto(A, B, Cam, Custo) :- travessiaCusto(A, B, [A], Ca, Custo), inverter(Ca,Cam).
+
 caminhosCusto(A, B, Lc) :- setof(Cam:Custo, caminhoCusto(A, B, Cam,Custo), Lc), !.
 caminhosCusto(_, _, []).
 
+nodos(Ln) :- setof(N,(X^C^ligacao(X, N, C);
+             Y^C^ligacao(N, Y, C)), Ln), !.
+nodos([]).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Função Conjuntos
+
+conjuntoCusto(XS, Cu, Path) :- conjunto(XS,Pa),
+							   removePathIgual(Pa,Pa,Path),
+							   custoAux(Path,0,Cu).
+
+removePathIgual([],P,P).
+removePathIgual([X],P,P).
+removePathIgual([X,Y|XS],PP,P) :- X=Y, apagar(X,PP,PPP), removePathIgual(PPP,PPP,P).
+removePathIgual([X,Y|XYS],PP,P) :- X\=Y, removePathIgual([Y|XYS],PP,P).
+
+custoAux([],CU,CU).
+custoAux([X],CU,CU).
+custoAux([X,Y |XS],XX,CU) :- ligacao(X,Y,R1),
+							 soma(R1,XX,R2),
+							 custoAux([Y|XS],R2,CU).
+
+conjunto([], Path).
+conjunto(XS, Path) :- conjuntoAux(XS,[],Path).
+
+conjuntoAux([],F,F).
+conjuntoAux([X],F,F).
+conjuntoAux([VX,VY|VS],X,F) :- caminho(VX,VY,FFF), 
+							   concatena(X,FFF,FF),
+							   conjuntoAux([VY|VS],FF,F).
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Função que devolve o custoMinimo entre duas cidades
+
 menor([],K,X,X,K).
 menor([C:X|XS],K,M,R,CA) :- X =< M, menor(XS,C,X,R,CA).
 menor([C:X|XS],K,M,R,CA) :- M <  X, menor(XS,K,M,R,CA).
@@ -177,7 +207,17 @@ custoMinimo(A,B,R,CA) :- caminhosCusto(A,B,[HC:HP|T]),
 						 menor([HC:HP|T],HC,HP,R,CA).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Funções úteis
+concatena([],L2,L2).
+concatena([X|R], L2, [X|L]) :- concatena(R,L2,L).
 
-nodos(Ln) :- setof(N,(X^C^ligacao(X, N, C);
-             Y^C^ligacao(N, Y, C)), Ln), !.
-nodos([]).
+inverter([],[]).
+inverter([X|XS],L) :- inverter(XS,V), concatena(V,[X],L).
+
+soma(X,Y,Z) :- Z is X+Y.
+
+apagar(N,[N|XS], XS).
+apagar(N,[X|XS],[X|L]) :- N\==X, apagar(N,XS,L).
+
+nao(X) :- X,!,fail.
+nao(X).
