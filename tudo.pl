@@ -202,6 +202,15 @@ caminhoSeq([X,XS|XY],R) :- caminhoMinimo(X,XS,R2,LL),
 						    caminhoSeq([XS|XY],RES),
 						    R is R2+RES.
 
+
+%% 
+
+sequenciaMinima(XS,R) :- seqAux(XS,0,R).
+
+seqAux([],R,R).
+seqAux([X],R,R).
+seqAux([X,Y|XYS],R,RRR) :- custoMinimo(X,Y,RR,_), soma(RR,R,R2), seqAux([Y|XYS],R2,RRR).
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Função que devolve o custoMinimo entre duas cidades
 
@@ -211,6 +220,34 @@ menor([C:X|XS],K,M,R,CA) :- M <  X, menor(XS,K,M,R,CA).
 
 custoMinimo(A,B,R,CA) :- caminhosCusto(A,B,[HC:HP|T]),
 						 menor([HC:HP|T],HC,HP,R,CA).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado que permite a evolucao do conhecimento
+
+evolucao( Termo ) :-
+    solucoes( Invariante,+Termo::Invariante,Lista ),
+    insercao( Termo ),
+    teste( Lista ).
+
+insercao( Termo ) :- assert( Termo ).
+insercao( Termo ) :- retract( Termo ),!,fail.
+
+teste( [] ).
+teste( [A|B] ) :- A, teste( B ).
+
+solucoes( X,Y,Z ) :- findall( X,Y,Z ).
+
+comprimento( S,N ) :- length( S,N ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado que permite a remocao do conhecimento
+
+remocao( Termo ) :-
+ 	solucoes( Invariante,-Termo::Invariante,Lista ),
+ 	teste( Lista ),
+    remover( Termo ).
+
+remover( Termo ) :- retract( Termo ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Funções úteis
@@ -225,5 +262,7 @@ soma(X,Y,Z) :- Z is X+Y.
 apagar(N,[N|XS], XS).
 apagar(N,[X|XS],[X|L]) :- N\==X, apagar(N,XS,L).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensao do meta-predicado nao: Questao -> {V,F}
 nao(X) :- X,!,fail.
 nao(X).
