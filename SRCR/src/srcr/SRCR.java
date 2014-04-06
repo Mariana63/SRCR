@@ -29,7 +29,9 @@ public class SRCR {
         System.out.println("\n################ Distancia entre cidades ##################");
 	System.out.println("#                                                         #");
     	System.out.println("#   Para cada cidade que pretenda passar, insira o seu    #");
-        System.out.println("#   nome, seguido de ENTER.                               #");
+        System.out.println("#   nome (exemplo: Braga), seguido de ENTER.              #");
+        System.out.println("#   No caso de haver espaços, utilize o caracter '_' em   #");
+        System.out.println("#   detrimento destes (exemplo: Viana_Castelo).           #");
         System.out.println("#   Assim que tenha  terminado  o trajecto pretendido,    #");
         System.out.println("#   escreva a palavra FIM, mais ENTER.                    \n#");
         in.nextLine();
@@ -82,7 +84,9 @@ public class SRCR {
         System.out.println("\n################ Distancia entre cidades ##################");
 	System.out.println("#                                                         #");
     	System.out.println("#   Para cada cidade que pretenda passar, insira o seu    #");
-        System.out.println("#   nome, seguido de ENTER.                               #");
+        System.out.println("#   nome (exemplo: Braga), seguido de ENTER.              #");
+        System.out.println("#   No caso de haver espaços, utilize o caracter '_' em   #");
+        System.out.println("#   detrimento destes (exemplo: Viana_Castelo).           #");
         System.out.println("#   Assim que tenha  terminado  o trajecto pretendido,    #");
         System.out.println("#   escreva a palavra FIM, mais ENTER.                    \n#");
         in.nextLine();
@@ -162,16 +166,19 @@ public class SRCR {
         
         System.out.println("\n################# Distâncias de Percursos #################");
 	System.out.println("#                                                         #");
-    	System.out.println("#   1 - Conjunto de pontos a percorrer                    #");
-    	System.out.println("#   2 - Distância mínima para uma sequência               #");
+        System.out.println("#   1 - Ligações entre cidades                            #");
+    	System.out.println("#   2 - Conjunto de pontos a percorrer                    #");
+    	System.out.println("#   3 - Distância mínima para uma sequência               #");
 	System.out.println("#                                                         #");
 	System.out.println("#   Escolha uma opção:                                    #");
 	System.out.println("###########################################################");
     	String opt = in.next();
    	
-    	if(opt.equals("1"))
+        if(opt.equals("1"))
+                { query="ligacao(ÍNICIO,FIM,DISTANCIA)."; } else
+        if(opt.equals("2"))
                 { query=menuConjunto(); } else
-    	if(opt.equals("2"))
+    	if(opt.equals("3"))
                 { query=menuSequencia(); }
         else { System.out.println("Opcão inválida!");
                query="erro"; }
@@ -187,24 +194,21 @@ public class SRCR {
     	System.out.println("#   1 - Listar todos os pontos de entrega do país         #");
         System.out.println("#   2 - Coordenadas cartesianas                           #");
     	System.out.println("#   3 - Cidades por região                                #");
-        System.out.println("#   4 - Tipo de entrega em cada ponto                     #");
-        System.out.println("#   5 - Ligações existentes entre cidades                 #");
+        System.out.println("#   4 - Tipo de entrega entre cidades                     #");
 	System.out.println("#                                                         #");
 	System.out.println("#   Escolha uma opção:                                    #");
 	System.out.println("###########################################################");
     	String opt = in.next();
    		
         if(opt.equals("1"))
-                { query="sigla(CIDADE,SIGLA)."; } else
+                { query="servTO(LOJA)."; } else
     	if(opt.equals("2"))
                 { query="localizacao(CIDADE,COORDENADAS)."; } else
         if(opt.equals("3"))
                 { query=menuCidadeRegiao(); } else	
         if(opt.equals("4"))
                 { System.out.println("\ntipo: \n 0 - Normal\n 1 - Express\n");
-                    query="tipoEntrega(CIDADE,TIPO)."; } else
-        if(opt.equals("5"))
-                { query="ligacao(ÍNICIO,FIM,DISTANCIA)."; }
+                    query="tipoEntrega(CIDADE,TIPO)."; } 
         else { System.out.println("Opcão inválida!");
                query="erro";
              }
@@ -222,7 +226,7 @@ public class SRCR {
         System.out.println("#                                                          #");
 	System.out.println("#   0 - Sair                                               #");
 	System.out.println("#                                                          #");
-	System.out.println("#   Escolha uma opção                                      #");
+	System.out.println("#   Escolha uma opção:                                     #");
 	System.out.println("############################################################");
     	String opt = in.next();
    	
