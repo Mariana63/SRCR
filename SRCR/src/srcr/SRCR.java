@@ -124,7 +124,7 @@ public class SRCR {
 	System.out.println("###########################################################");
         String lista = cidades.toString();
         //System.out.println(lista);
-        query="caminhoSeq("+lista+",DISTANCIA).";
+        query="sequenciaMinima("+lista+",DISTANCIA).";
         
         return query;
     }
