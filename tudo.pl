@@ -260,6 +260,15 @@ custoMinimo(A,B,R,CA) :- caminhosCusto(A,B,[HC:HP|T]),
 -servTO( Nome ).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Extensão do predicado que permite a evolucao dos tipos de entrega
+
++tipoEntrega(Cidade,Tipo) :: (solucoes( (Cidade,Tipo), (tipoEntrega(Cidade,Tipo)), S),
+							  comprimento( S, N), N==1, Tipo<2, Tipo>=0
+							  ).
+
+-tipoEntrega(Cidade,_) :: ( servTO(Cidade) ).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensão do predicado que permite a evolucao do conhecimento %
 
 evolucao( Termo ) :-
@@ -284,15 +293,6 @@ remocao( Termo ) :-
     remover( Termo ).
 
 remover( Termo ) :- retract( Termo ).
-
-
-% Invariante Estrutural: nao permite a insercao de conhecimento repetido
-
-+servTo(Cidade) :: (solucoes(Cidade, (servTo(Cidade)), S),
-						comprimento( S, N), N==1
-						).
-
--servTO(Cidade).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Funções úteis %
