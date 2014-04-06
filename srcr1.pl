@@ -16,7 +16,7 @@
 :- dynamic procuraLocalizacao/2.
 :- dynamic caminhosCusto/4.
 :- dynamic custoMinimo/4.
-:- dynamic 
+:- dynamic conjuntoCusto/4.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % 0- normal, 1- express, 2- ambas ????
@@ -110,6 +110,10 @@ ligacao(aveiro, lisboa, 6).
 ligacao(coimbra, lisboa,600).
 ligacao(leiria, lisboa, 4).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Calcula Distancia entre 2 pontos
+distancia(X,Y,A,B,R) :- R is sqrt(((X-A)*(X-A))+((Y-B)*(Y-B))).
+
 
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
 
@@ -140,7 +144,8 @@ hacaminho(A, B) :- ligacao(A, X), hacaminho(X, B).
 %------------------------------------------------------------- FUNÇÕES ----------------------------------------------
 
 ha_caminho(A, B) :- ligacao(A, B, _), !.
-ha_caminho(A, B) :- ligacao(A, X, _), ha_caminho(X, B).
+ha_caminho(A, B) :- ligacao(A, X, _),
+ha_caminho(X, B).
 
 travessia(A, B, Visitados, [B|Visitados]) :- ligacao(A, B, _).
 travessia(A, B, Visitados, Cam) :- ligacao(A, C, _),
