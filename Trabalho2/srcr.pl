@@ -2,7 +2,6 @@
 :- set_prolog_flag( single_var_warnings,off ).
 :- set_prolog_flag( unknown,fail ).
 
-
 :- op(900,xfy,'::').
 :- dynamic '-'/1.
 :- dynamic farmacia/2.
@@ -16,10 +15,7 @@
 :- dynamic preco_recomendado/3.
 :- dynamic regime_especial/3.
 
-
-%---------------------------------------------------------------------------- BASE CONHECIMENTO -------------------------------------------------------------------
-
-
+%---------------------------------------------------------------------------- BASE CONHECIMENTO ---------------------------------------------------------------------
 %--------------------------------------------------------------------------------- FARMACIA -------------------------------------------------------------------------
 %Extensao do predicado farmacia: Nome, Tipo -> {V,F,D}
 farmacia('Estela', 0).
@@ -41,7 +37,7 @@ armazem('S. Victor', incerto).
 
 %% Invariantes %%
 +armazem(F,M) :: (solucoes((F,M), (armazem(F,M)),S),
-				          comprimento(S,N), N == 1
+                          comprimento(S,N), N == 1
                 ).
                 
 % Farmácia e medicamento existem %
@@ -68,8 +64,8 @@ medicamento('Ben-u-ron', incerto).
 
 %% Invariantes %%
 +medicamento(M,P) :: (solucoes(M, (medicamento(M,P)), S),
-                   	 comprimento( S,N ), N == 1
-                   	).
+                     comprimento( S,N ), N == 1
+                    ).
   
 -medicamento(M,P) :: (-data_colocacao_mercado(M, DCD,DCM,DCA), data_validade(M,DVD,DVM,DVA),
                      -aplicacacao_clinica(M,AP), -apresentacao_farmaceutica(M,AF),
@@ -117,15 +113,15 @@ data_colocacao_mercado('Pantozol', 11, 06, 2012).
 %%   Conhecimento negativo
 -data_colocacao_mercado(X,D,M,A) :- nao(data_colocacao_mercado(X,D,M,A)), nao(excepcao(data_colocacao_mercado(X,D,M,A))).
 
-%%   Excepções
 
-excepcao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X, data_nula, data_nula, data_nula).
+%%   Exceções
+excecao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X, data_nula, data_nula, data_nula).
                                 
-excepcao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X,incerto,M,A).
-excepcao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X,D,incerto,A).
-excepcao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X,D,M,incerto).
-excepcao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(incerto,D,M,A).
-excepcao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X,incerto,incerto,incerto).
+excecao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X,incerto,M,A).
+excecao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X,D,incerto,A).
+excecao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X,D,M,incerto).
+excecao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(incerto,D,M,A).
+excecao(data_colocacao_mercado(X,D,M,A)) :- data_colocacao_mercado(X,incerto,incerto,incerto).
 
                                
                                 
@@ -196,13 +192,13 @@ aplicacao_clinica('Pantozol', 'ulceras').
                 
 
 %% Conhecimento negativo %%
--aplicacao_clinica(M,A) :- nao(aplicacao_clinica(M,A)), nao(excecao(aplicacao_clinica(M,A))).
+-aplicacao_clinica(M,A) :- nao(aplicacao_clinica(M,A)), nao(excepcao(aplicacao_clinica(M,A))).
 
 
 %% Excecoes %%
-excecao(aplicacao_clinica(M,A)) :- aplicacao_clinica(M, incerto). 
-excecao(aplicacao_clinica(M,A)) :- aplicacao_clinica(incerto, A).
-excecao(aplicacao_clinica(A,B)) :- aplicacao_clinica(A, aplicacao_clinica_nula).
+excepcao(aplicacao_clinica(M,A)) :- aplicacao_clinica(M, incerto). 
+excepcao(aplicacao_clinica(M,A)) :- aplicacao_clinica(incerto, A).
+excepcao(aplicacao_clinica(A,B)) :- aplicacao_clinica(A, aplicacao_clinica_nula).
 
 
 
@@ -226,14 +222,14 @@ apresentacao_farmaceutica('Pantozol', 'comprimidos').
 
 
 %% Conhecimento negativo %%
--apresentacao_farmaceutica(M,A) :- nao(apresentacao_farmaceutica(M,A)), nao(excecao(apresentacao_farmaceutica(M,A))).
+-apresentacao_farmaceutica(M,A) :- nao(apresentacao_farmaceutica(M,A)), nao(excepcao(apresentacao_farmaceutica(M,A))).
 
 
 
 %% Excecoes %%
-excecao(apresentacao_farmaceutica(M,A)) :- apresentacao_farmaceutica(M, incerto). 
-excecao(apresentacao_farmaceutica(M,A)) :- apresentacao_farmaceutica(incerto, A).
-excecao(apresentacao_farmaceutica(A,B)) :- apresentacao_farmaceutica(A, apresentacao_farmaceutica_nula).
+excepcao(apresentacao_farmaceutica(M,A)) :- apresentacao_farmaceutica(M, incerto). 
+excepcao(apresentacao_farmaceutica(M,A)) :- apresentacao_farmaceutica(incerto, A).
+excepcao(apresentacao_farmaceutica(A,B)) :- apresentacao_farmaceutica(A, apresentacao_farmaceutica_nula).
 
 
 
@@ -324,9 +320,6 @@ excepcao(regime_especial(M,A,P)) :- regime_especial(M,incerto,P).
 excepcao(regime_especial(M,A,P)) :- regime_especial(incerto,A,P).
 excepcao(regime_especial(M,A,P)) :- regime_especial(M,A,incerto).
 
-
-
-
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------- FUNÇÕES GERAIS ---------------------------------------------------------------------------
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -339,29 +332,24 @@ nulo(apresentacao_farmaceutica_nula).
 nulo(preco_nulo).
 nulo(interdito).
 
-
-
 solucoes(X,Y,Z):- findall(X, Y, Z).
-
 
 %Extensao do meta-predicado nao: Questao -> {V,F}
 nao(Questao):- Questao, !, fail.
 nao(Questao).
 
-
-
 %Extensao do meta-predicado demo: Questao,Resposta -> {V,F}
-demo(Questao, verdadeiro):- Questao.
-demo(Questao, falso):- -Questao.
-demo(Questao, desconhecido):- nao(Questao), nao(-Questao).
-
-
+demo( Questao,verdadeiro ) :-
+    Questao.
+demo( Questao,falso ) :-
+    -Questao.
+demo( Questao,desconhecido ) :-
+    nao( Questao ),
+    nao( -Questao ).
 
 % Extensão do predicado comprimento: L, R -> {V, F}
 comprimento([], 0) .
 comprimento([H|T], R) :- comprimento(T, X), R is 1+X .
-
-
 
 % Extensão do predicado que permite a evolução (inserção) de conhecimento: Termo -> {v, F}
 evolucao( Termo ) :-
@@ -369,22 +357,18 @@ evolucao( Termo ) :-
     insercao( Termo ),
     teste( Lista ).
 
-
 insercao(Termo):- assert(Termo).
 insercao(Termo):- retract(Termo), !, fail.
-
 
 teste([]).
 teste([R|LR]):- R, teste(LR).
 
-
 % Extensão do predicado que permite a remoção de conhecimento: Termo -> {v, F}
 remocao( Termo ) :-
- 	solucoes( Invariante,-Termo::Invariante,Lista ),
- 	teste( Lista ),
+    solucoes( Invariante,-Termo::Invariante,Lista ),
+    teste( Lista ),
     remover( Termo ).
 
 remover( Termo ) :- retract( Termo ).
-
 
 
