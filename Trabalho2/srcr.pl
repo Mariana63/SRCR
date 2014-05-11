@@ -27,7 +27,7 @@ farmacia('S. Victor',1).
                     comprimento( S,N ), N == 1
                     ).
 
--farmacia( F,T ) :: -armazem( F,_ ).
+-farmacia( F,T ) :: -armazem( F,M ).
 
 %--------------------------------------------------------------------------------- ARMAZEM -------------------------------------------------------------------------
 %Extensao do predicado armazem: Nome Farmacia, Nome Medicamento -> {V,F,D}
