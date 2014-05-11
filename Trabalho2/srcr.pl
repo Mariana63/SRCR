@@ -27,9 +27,9 @@ farmacia('Reis', 1).
 farmacia('S. Victor',1).
                  
 %% Invariantes %%       
-+farmacia( F,T ) :: (solucoes( F, farmacia( F,_ )), S),
-                  comprimento( S,N ), N == 1
-                  ).
++farmacia( F,T ) :: (solucoes( F, (farmacia( F,_ )), S),
+                    comprimento( S,N ), N == 1
+                    ).
 
 -farmacia( F,T ) :: -armazem( F,_ ).
 
@@ -40,8 +40,8 @@ armazem('Reis', incerto).
 armazem('S. Victor', incerto).
 
 %% Invariantes %%
-+armazem(F,M) :: (solucoes((F,M), armazem(F,M)),S),
-				comprimento(S,N), N == 1
++armazem(F,M) :: (solucoes((F,M), (armazem(F,M)),S),
+				          comprimento(S,N), N == 1
                 ).
                 
 % Farmácia e medicamento existem %
@@ -67,7 +67,7 @@ medicamento('Pantozol', 'Pantoprazol').
 medicamento('Ben-u-ron', incerto).
 
 %% Invariantes %%
-+medicamento(M,P) :: (solucoes(M, medicamento(M,P)), S),
++medicamento(M,P) :: (solucoes(M, (medicamento(M,P)), S),
                    	 comprimento( S,N ), N == 1
                    	).
   
@@ -96,7 +96,7 @@ data_colocacao_mercado('Pantozol', 11, 06, 2012).
 %% Invariantes 
 
 % Não há conhecimento repetido %
-+data_colocacao_mercado(X,D,M,A) :: (solucoes((X,D,M,A),data_colocacao_mercado( X,D,M,A ), S),
++data_colocacao_mercado(X,D,M,A) :: (solucoes((X,D,M,A), data_colocacao_mercado( X,D,M,A ), S),
                                 comprimento( S,N ), N == 1
                                 ).
 
@@ -145,7 +145,7 @@ data_validade('Pantozol', 11, 06, 2016).
 %% Invariantes 
 
 % Não há conhecimento repetido %
-+data_validade(X,D,M,A) :: (solucoes((X,D,M,A),data_validade( X,D,M,A ), S),
++data_validade(X,D,M,A) :: (solucoes((X,D,M,A), data_validade( X,D,M,A ), S),
                                 comprimento( S,N ), N == 1
                                 ).
 
@@ -161,7 +161,7 @@ data_validade('Pantozol', 11, 06, 2016).
                                 ( A==AI, M==MI, D>DI )).
 
 +data_validade(X,D,M,A) :: (solucoes((Dia, Mes, Ano), (data_validade(X, Dia, Mes, Ano)),
-                                     (nao(nulo(Dia)); nao(nulo(Mes)); nao(nulo(Ano)))), [])).
+                                     (nao(nulo(Dia)), nao(nulo(Mes)), nao(nulo(Ano)))), []).
                  
 %%   Conhecimento negativo    %%
 -data_validade(X,D,M,A) :- nao(data_validade(X,D,M,A)), nao(excepcao(data_validade(X,D,M,A))).
@@ -192,7 +192,7 @@ aplicacao_clinica('Pantozol', 'ulceras').
 
 
 %% Invariantes %%
-+aplicacao_clinica(M,A) :: (solucoes((M,A), aplicacao_clinica(M,A)),S), comprimento(S,N), N == 1).
++aplicacao_clinica(M,A) :: (solucoes((M,A), (aplicacao_clinica(M,A)),S), comprimento(S,N), N == 1).
                 
 
 %% Conhecimento negativo %%
@@ -221,7 +221,7 @@ apresentacao_farmaceutica('Pantozol', 'comprimidos').
 
 
 %% Invariantes %%
-+apresentacao_farmaceutica(M,A) :: (solucoes((M,A), apresentacao_farmaceutica(M,A)),S), comprimento(S,N), N == 1).
++apresentacao_farmaceutica(M,A) :: (solucoes((M,A), (apresentacao_farmaceutica(M,A)),S), comprimento(S,N), N == 1).
                 
 
 
