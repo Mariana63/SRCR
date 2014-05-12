@@ -254,34 +254,41 @@ preco_recomendado('Oceral', 'creme',incerto).
 -preco_recomendado('Oceral', 'creme',15).
 
 %-------------------------------------------------------------------------------- REGIME ESPECIAL ----------------------------------------------------------------------
-%Extensao do predicado regime_especial: Nome Medicamento, Apresentacao Farmaceutica, Preco -> {V,F,D}
-regime_especial('Daflon', 'comprimidos',40).
-regime_especial('Calde', 'comprimidos',20).
-regime_especial('Fagico', 'xarope',incerto).
-regime_especial('Egide', 'comprimidos',5).
-regime_especial('Magrix', 'comprimidos',20).
-regime_especial('Oceral', 'creme',incerto).
-regime_especial('Parasin', 'suspensao oral',5).
+%Extensao do predicado regime_especial: Nome Medicamento, Apresentacao Farmaceutica, Tipo, Preco -> {V,F,D}
+regime_especial('Daflon', 'comprimidos', 1, 40).
+regime_especial('Fagico', 'xarope', 2, incerto).
+regime_especial('Egide', 'comprimidos', incerto, 5).
+regime_especial('Magrix', 'comprimidos', 1, 20).
+regime_especial('Oceral', 'creme', 3, incerto).
+regime_especial('Parasin', 'suspensao oral', incerto, 5).
+
+regime_especial('Calde', 'comprimidos', T, P) :- preco_pvp('Calde','comprimidos',X),
+                                                 T == 1, P is X*0.90,
+                                                 T == 2, P is X*0.80,
+                                                 T == 3, P is X*0.70.
 
 %% invariantes
-
-+regime_especial(M,A,P) :: (solucoes((M,A),regime_especial( M,A,P ), S),
-                                comprimento( S,N ), N == 1
-                                ).
-+regime_especial(M,A,P) :: (medicamento(M,_), apresentacao_farmaceutica(M,A), preco_pvp(M,A,P)).
++regime_especial(M,A,T,P) :: (solucoes((M,A,T),regime_especial( M,A,T,P ), S),
+                              comprimento( S,N ), N == 1
+                              ).
++regime_especial(M,A,T,P) :: (solucoes((M,A),regime_especial( M,A,T,P ), S),
+                              comprimento( S,N ), N < 4
+                              ).
++regime_especial(M,A,T,P) :: (medicamento(M,_), apresentacao_farmaceutica(M,A), preco_pvp(M,A,P)).
 
 %%   Conhecimento negativo
--regime_especial(M,A,P) :- nao(regime_especial(M,A,P)), nao(excecao(regime_especial(M,A,P))).
+-regime_especial(M,A,T,P) :- nao(regime_especial(M,A,T,P)), nao(excecao(regime_especial(M,A,T,P))).
 
 %% Excecoes
 
-excecao(regime_especial(M,A,P)) :- regime_especial(M,A, preco_nulo).
-excecao(regime_especial(M,A,P)) :- regime_especial(M,incerto,P).
-excecao(regime_especial(M,A,P)) :- regime_especial(incerto,A,P).
-excecao(regime_especial(M,A,P)) :- regime_especial(M,A,incerto).
+excecao(regime_especial(M,A,T,P)) :- regime_especial(M,A,T,preco_nulo).
+excecao(regime_especial(M,A,T,P)) :- regime_especial(M,incerto,T,P).
+excecao(regime_especial(M,A,T,P)) :- regime_especial(incerto,A,T,P).
+excecao(regime_especial(M,A,T,P)) :- regime_especial(M,A,T,incerto).
+excecao(regime_especial(M,A,T,P)) :- regime_especial(M,A,incerto,P).
 
-excecao(regime_especial('Pantozol', 'comprimidos',40)).
-excecao(regime_especial('Pantozol', 'comprimidos',25)).
+excecao(regime_especial('Pantozol', 'comprimidos',0,40)).
+excecao(regime_especial('Pantozol', 'comprimidos',0,25)).
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------- FUNÇÕES GERAIS ---------------------------------------------------------------------------
