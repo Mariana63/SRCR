@@ -10,7 +10,9 @@
 % SICStus PROLOG: definicoes iniciais
 
 :- op( 800,xfx,'::' ).
-:- dynamic e_um/2.
+:- dynamic grupo/2.
+:- dynamic tipo/2.
+:- dynamic seres/2.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Carregamento das bibliotecas

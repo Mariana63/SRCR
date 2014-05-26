@@ -11,6 +11,10 @@
 
 :- op( 800,xfx,'::' ).
 :- dynamic e_um/2.
+:- dynamic alimentacao/2.
+:- dynamic locomocao/2.
+:- dynamic cobertura/2.
+:- dynamic reproducao/2.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Carregamento das bibliotecas

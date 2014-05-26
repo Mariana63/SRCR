@@ -10,7 +10,10 @@
 % SICStus PROLOG: definicoes iniciais
 
 :- op( 800,xfx,'::' ).
-:- dynamic e_um/2.
+:- dynamic locomocao/2.
+:- dynamic habitat/2.
+:- dynamic alimentacao/2.
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Carregamento das bibliotecas
@@ -25,7 +28,7 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado e_um: Agente,Classe -> {V,F}
 
-e_um( ave, animal).
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Iniciaizacao da vida do agente
