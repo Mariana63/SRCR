@@ -71,25 +71,6 @@ animal :: grupo( invertebrados ).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%Extensao do predicado tipo: Animal,Tipo -> {V,F}
-
-animal :: tipo( vertebrados ).
-animal :: tipo( invertebrados ).
-
-
-%-------Invariantes--------%
-
-%-- Conhecimento nao pode ser repetido --%
-+(Ar::tipo(A)) :: (findall(A, Ar::tipo( A ), S),
-                                comprimento( S,N ), N == 1
-                                ).
-
-
-%-- Conhecimento negativo --%
--tipo(A) :- nao(tipo(A)), nao(excecao(tipo(A))).
-
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado seres: Animal,Seres -> {V,F}
 
 animal :: seres(eucariontes).
