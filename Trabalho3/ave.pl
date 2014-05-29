@@ -1,15 +1,9 @@
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% SISTEMAS DE REPRESENTACAO DE CONHECIMENTO E RACIOCINIO - LEI/3
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Estruturas Hierarquicas com Heranca
-
 % Distribuicao da Computacao - LINDA
 
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% SICStus PROLOG: definicoes iniciais
 
+% SICStus PROLOG: definicoes iniciais
 :- op( 800,xfx,'::' ).
+:- dynamic '-'/1.
 :- dynamic alimentacao/2.
 :- dynamic habitat/2.
 :- dynamic locomocao/2.
@@ -19,50 +13,51 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Carregamento das bibliotecas
 
-:- use_module( library( 'linda/client' ) ).
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Teoria representada na forma Agente :: Conhecimento
-
+:-use_module(library('linda/client')).
+:-use_module(library('system')).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado e_um: Agente,Classe -> {V,F}
 
-e_um( ave, animal).
+e_um(ave,animal).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Iniciaizacao da vida do agente
 
 demo :-
-    write( 'AVE' ),nl,
-    in(demo( ave,Questao ) ),
-    write( 'demo( ave,Questao )' ),nl,
-    demo(ave,Questao ),
+    write('Sou uma AVE'),nl,
+    in(demo(ave,Questao)),
+    write('demo(ave,Questao)'),nl,
+    demo(ave,Questao),
     demo.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do meta-predicado demo: Agente,Questao -> {V,F}
 
-demo(Agente,Questao ) :-
+demo(Agente,Questao):-
     Agente::Questao,
-    write(( 1,Agente::Questao ) ),nl,
-    out(prova( Agente,Questao ) ).
+    write((1,Agente::Questao)),nl,
+    out(prova(Agente,Questao)).
 
-demo(Agente,Questao ) :-
-    e_um(Agente,Classe ),
-    write(( 2,e_um( Agente,Classe ) ) ),nl,
-    out(demo( Classe,Questao ) ).
+demo(Agente,Questao):-
+    e_um(Agente,Classe),
+    write((2,e_um(Agente,Classe))),nl,
+    out(demo(Classe,Questao)).
 
-demo(Agente,Questao ) :-
-    write(( 3,nao ) ),nl,
-    out(prova( Agente,nao ) ).
+demo(Agente,Questao) :-
+    write((3,nao)),nl,
+    out(prova(Agente,nao)).
 
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%Extensao do predicado alimentacao: Ave,Alimentacao -> {V,F}
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%-------------------------------------------------------------------------------- BASE DE CONHECIMENTO ---------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-ave :: alimentacao( sementes ).
-ave :: alimentacao( minhocas ).
+
+%------------------------------------------------------------------- ALIMENTACAO ----------------------------------------------------
+%Extensao do predicado alimentacao: Ave,Alimento -> {V,F}
+
+ave::alimentacao(carnivoro).
 
 
 %-------Invariantes--------%
@@ -115,7 +110,7 @@ ave :: locomocao( voo ).
 
 
 
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%--------------------------------------------------------------------- COBERTURA ------------------------------------------------
 %Extensao do predicado cobertura: Ave,Cobertura -> {V,F}
 
 ave :: cobertura( penas ).
