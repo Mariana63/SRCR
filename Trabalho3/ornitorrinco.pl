@@ -5,7 +5,7 @@
 :- dynamic '-'/1.
 :- dynamic e_um/2.
 :- dynamic revestimento/2.
-:- dynamic alimento/2.
+:- dynamic reproducao/2.
 :- dynamic cor/2.
 
 
@@ -18,17 +18,16 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado e_um: SubClasse,Classe -> {V,F}
 
-e_um(batman,ave).
-e_um(batman,mamifero).
+e_um(ornitorrinco,mamifero).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Iniciaizacao da vida do agente
 
 demo :-
-    write('Sou o BATMAN'),nl,
-    in(demo(batman,Questao)),
-    write('demo(batman,Questao)'),nl,
-    demo(batman,Questao),
+    write('Sou o ORNITORRINCO'),nl,
+    in(demo(ornitorrinco,Questao)),
+    write('demo(ornitorrinco,Questao)'),nl,
+    demo(ornitorrinco,Questao),
     demo.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -54,9 +53,9 @@ demo(Agente,Questao) :-
 
 
 %-------------------------------------------------------------------- REVESTIMENTO ----------------------------------------------------
-%Extensao do predicado batman: batman, revestimento -> {V,F}
+%Extensao do predicado ornitorrinco: ornitorrinco, revestimento -> {V,F}
 
-batman::revestimento(pelos).
+ornitorrinco::revestimento(pelos).
 
 
 
@@ -73,32 +72,29 @@ batman::revestimento(pelos).
 
 
 
-%----------------------------------------------------------------- ALIMENTO --------------------------------------------------------------
-%Extensao do predicado batman: batman, alimento -> {V,F}
+%----------------------------------------------------------------- REPRODUCAO --------------------------------------------------------------
+%Extensao do predicado ornitorrinco: ornitorrinco, reproducao -> {V,F}
 
-batman::alimento(lasanha).
-batman::alimento('arroz de cabidela').
-batman::alimento('peixe grelhado no forno').
-
+ornitorrinco::reproducao(oviparo).
 
 
 % Conhecimento nao pode ser repetido
-+(Ar::alimento(C)) :: (findall(C, Ar::alimento(C), S),
++(Ar::reproducao(C)) :: (findall(C, Ar::reproducao(C), S),
                     comprimento(S,N), N == 1
                     ).
 
 
 %-- Conhecimento negativo
--alimento(A) :- nao(alimento(A)), nao(excecao(alimento(A))).
+-reproducao(A) :- nao(reproducao(A)), nao(excecao(reproducao(A))).
 
 
 
 %----------------------------------------------------------------- COR --------------------------------------------------------------
-%Extensao do predicado batman: batman, Cor -> {V,F}
+%Extensao do predicado ornitorrinco: ornitorrinco, Cor -> {V,F}
 
-batman::cor(branco).
-batman::cor(preto).
-batman::cor(amarelo).
+ornitorrinco::cor(branco).
+ornitorrinco::cor(amarelo).
+ornitorrinco::cor(castanho).
 
 
 % Conhecimento nao pode ser repetido

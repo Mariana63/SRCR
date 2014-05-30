@@ -4,8 +4,9 @@
 :- op( 800,xfx,'::' ).
 :- dynamic '-'/1.
 :- dynamic classe/2.
-:- dynamic alimentacao/2.
+:- dynamic regime/2.
 :- dynamic grupo/2.
+:- dynamic reproducao/2.
 :- dynamic e_um/2.
 
 
@@ -47,8 +48,8 @@ demo(Agente,Questao) :-
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-%----------------------------------------------------------------------- CLASSE ------------------------------------------------
-%Extensao do predicado classe: Animal,Classe-> {V,F}
+%---------------------------------------------------------------------------------------- CLASSE --------------------------------------------------------------------------
+%Extensao do predicado animal: Animal,Classe-> {V,F}
 
 animal::classe(mamifero).
 animal::classe(reptil).
@@ -69,27 +70,27 @@ animal::classe(insecto).
 -classe(A) :- nao(classe(A)), nao(excecao(classe(A))).
 
 
-%------------------------------------------------------------------- ALIMENTACAO -----------------------------------------------
-%Extensao do predicado alimentacao: Animal,Alimento -> {V,F}
+%------------------------------------------------------------------------------------------ REGIME_ALIMENTAR ----------------------------------------------------------------
+%Extensao do predicado animal: Animal,RegimeAlimentar -> {V,F}
 
-animal::alimentacao(herbivoro).
-animal::alimentacao(carnivoro).
-animal::alimentacao(omnivoro).
+animal::regime(herbivoro).
+animal::regime(carnivoro).
+animal::regime(omnivoro).
 
 
 
 % Conhecimento nao pode ser repetido
-+(Ar::alimentacao(A)) :: (findall(A, Ar::alimentacao( A ), S),
++(Ar::regime(A)) :: (findall(A, Ar::regime( A ), S),
                         comprimento( S,N ), N == 1
                         ).
 
 
 % Conhecimento negativo
--alimentacao(A) :- nao(alimentacao(A)), nao(excecao(alimentacao(A))).
+-regime(A) :- nao(regime(A)), nao(excecao(regime(A))).
 
 
-%----------------------------------------------------------------------- GRUPO --------------------------------------------------
-%Extensao do predicado grupo: Animal,Grupo -> {V,F}
+%------------------------------------------------------------------------------------------------ GRUPO --------------------------------------------------
+%Extensao do predicado animal: Animal,Grupo -> {V,F}
 
 animal::grupo(vertebrados).
 animal::grupo(invertebrados).
@@ -104,6 +105,25 @@ animal::grupo(invertebrados).
 
 % Conhecimento negativo
 -grupo(A) :- nao(grupo(A)), nao(excecao(grupo(A))).
+
+
+%------------------------------------------------------------------------------------------------ REPRODUCAO --------------------------------------------------
+%Extensao do predicado animal: Animal,Reproducao -> {V,F}
+
+animal::reproducao(oviparo).
+animal::reproducao(viviparo).
+animal::reproducao(ovovivipiparo).
+
+
+
+% Conhecimento nao pode ser repetido
++(Ar::reproducao(A)) :: (findall(A, Ar::reproducao( A ), S),
+                    comprimento( S,N ), N == 1
+                    ).
+
+
+% Conhecimento negativo
+-reproducao(A) :- nao(reproducao(A)), nao(excecao(reproducao(A))).
 
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -151,8 +171,10 @@ comprimento([H|T], R) :-
 
 %----------------------------------------------------------------- - - - - - - - - - -  -  -  -  -   -
 
+%QN = 'pc-name':'9999'
 ligar(QN):-linda_client(QN).
 
+% X, p(X), S
 qn(L):-bagof_rd_noblock(X,X,L).
 
 

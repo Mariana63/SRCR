@@ -4,9 +4,9 @@
 :- op( 800,xfx,'::' ).
 :- dynamic '-'/1.
 :- dynamic e_um/2.
-:- dynamic alimentacao/2.
-:- dynamic cobertura/2.
-:- dynamic reproducao/2.
+:- dynamic locomocao/2.
+:- dynamic revestimento/2.
+:- dynamic grupo/2.
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -18,7 +18,7 @@
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado e_um: Agente,Classe -> {V,F}
+% Extensao do predicado e_um: SubClasse,Classe -> {V,F}
 
 e_um(mamifero,animal).
 
@@ -54,59 +54,59 @@ demo(Agente,Questao) :-
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-%-------------------------------------------------------------------- MOVIMENTO ----------------------------------------------------
-%Extensao do predicado movimento: Mamifero,Movimento -> {V,F}
+%-------------------------------------------------------------------- LOCOMOCAO ----------------------------------------------------
+%Extensao do predicado mamifero: Mamifero, Locomocao -> {V,F}
 
-mamifero::movimento(anda).
+mamifero::locomocao(andamento).
 
 
 
 % Conhecimento nao pode ser repetido
-+(Ar::movimento(C)) :: (findall(C, Ar::movimento(C), S),
++(Ar::locomocao(C)) :: (findall(C, Ar::locomocao(C), S),
                     comprimento(S,N), N == 1
                     ).
 
 
 %-- Conhecimento negativo
--movimento(A) :- nao(movimento(A)), nao(excecao(movimento(A))).
+-locomocao(A) :- nao(locomocao(A)), nao(excecao(locomocao(A))).
 
 
 
 
 
-%----------------------------------------------------------------- COBERTURA --------------------------------------------------------------
-%Extensao do predicado cobertura: Mamifero,Cobertura -> {V,F}
+%----------------------------------------------------------------- REVESTIMENTO --------------------------------------------------------------
+%Extensao do predicado mamifero: Mamifero, Revestimento -> {V,F}
 
-mamifero::cobertura(pelos).
+mamifero::revestimento(pelos).
 
 
 
 % Conhecimento nao pode ser repetido
-+(Ar::cobertura(C)) :: (findall(C, Ar::cobertura(C), S),
++(Ar::revestimento(C)) :: (findall(C, Ar::revestimento(C), S),
                     comprimento(S,N), N == 1
                     ).
 
 
 %-- Conhecimento negativo
--cobertura(A) :- nao(cobertura(A)), nao(excecao(cobertura(A))).
+-revestimento(A) :- nao(revestimento(A)), nao(excecao(revestimento(A))).
 
 
 
-%----------------------------------------------------------------- REPRODUCAO --------------------------------------------------------------
-%Extensao do predicado reproducao: Mamifero,Reproducao -> {V,F}
+%----------------------------------------------------------------- GRUPO --------------------------------------------------------------
+%Extensao do predicado mamifero: Mamifero, Grupo -> {V,F}
 
-mamifero::reproducao(placentaria).
-mamifero::reproducao(marsupial).
+mamifero::grupo(placentaria).
+mamifero::grupo(marsupial).
 
 
 % Conhecimento nao pode ser repetido
-+(Ar::reproducao(C)) :: (findall(C, Ar::reproducao(C), S),
++(Ar::grupo(C)) :: (findall(C, Ar::grupo(C), S),
                     comprimento(S,N), N == 1
                     ).
 
 
 %-- Conhecimento negativo
--reproducao(A) :- nao(reproducao(A)), nao(excecao(reproducao(A))).
+-grupo(A) :- nao(grupo(A)), nao(excecao(grupo(A))).
 
 
 

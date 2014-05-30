@@ -1,24 +1,23 @@
 % Distribuicao da Computacao - LINDA
 
-
 % SICStus PROLOG: definicoes iniciais
 :- op( 800,xfx,'::' ).
 :- dynamic '-'/1.
-:- dynamic alimentacao/2.
-:- dynamic habitat/2.
+:- dynamic e_um/2.
 :- dynamic locomocao/2.
-:- dynamic cobertura/2.
-:- dynamic reproducao/2.
+:- dynamic revestimento/2.
+:- dynamic classe/2.
+:- dynamic alimento/2.
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Carregamento das bibliotecas
 
-:-use_module(library('linda/client')).
+:-use_module( library( 'linda/client' ) ).
 :-use_module(library('system')).
 
-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Extensao do predicado e_um: Agente,Classe -> {V,F}
+% Extensao do predicado e_um: SubClasse,Classe -> {V,F}
 
 e_um(ave,animal).
 
@@ -54,120 +53,106 @@ demo(Agente,Questao) :-
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-%------------------------------------------------------------------- ALIMENTACAO ----------------------------------------------------
-%Extensao do predicado alimentacao: Ave,Alimento -> {V,F}
+%-------------------------------------------------------------------- LOCOMOCAO ----------------------------------------------------
+%Extensao do predicado ave: ave, Locomocao -> {V,F}
 
-ave::alimentacao(carnivoro).
-
-
-%-------Invariantes--------%
-
-%-- Conhecimento nao pode ser repetido --%
-+(Ar::alimentacao(A)) :: (findall(A, Ar::alimentacao( A ), S),
-                                comprimento( S,N ), N == 1
-                                ).
+ave::locomocao(voo).
 
 
-%-- Conhecimento negativo --%
--alimentacao(A) :- nao(alimentacao(A)), nao(excecao(alimentacao(A))).
+
+% Conhecimento nao pode ser repetido
++(Ar::locomocao(C)) :: (findall(C, Ar::locomocao(C), S),
+                    comprimento(S,N), N == 1
+                    ).
 
 
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%Extensao do predicado habitat: Ave,Habitat -> {V,F}
-
-ave :: habitat( floresta ).
-ave :: habitat( deserto ).
-
-
-%-------Invariantes--------%
-
-%-- Conhecimento nao pode ser repetido --%
-+(Ar::habitat(A)) :: (findall(A, Ar::habitat( A ), S),
-                                comprimento( S,N ), N == 1
-                                ).
-
-
-%-- Conhecimento negativo --%
--habitat(A) :- nao(habitat(A)), nao(excecao(habitat(A))).
-
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%Extensao do predicado locomocao: Ave,Locomocao -> {V,F}
-
-ave :: locomocao( voo ).
-
-
-%-------Invariantes--------%
-
-%-- Conhecimento nao pode ser repetido --%
-+(Ar::locomocao(A)) :: (findall(A, Ar::locomocao( A ), S),
-                                comprimento( S,N ), N == 1
-                                ).
-
-
-%-- Conhecimento negativo --%
+%-- Conhecimento negativo
 -locomocao(A) :- nao(locomocao(A)), nao(excecao(locomocao(A))).
 
 
 
-%--------------------------------------------------------------------- COBERTURA ------------------------------------------------
-%Extensao do predicado cobertura: Ave,Cobertura -> {V,F}
-
-ave :: cobertura( penas ).
 
 
-%-------Invariantes--------%
+%----------------------------------------------------------------- REVESTIMENTO --------------------------------------------------------------
+%Extensao do predicado ave: ave, Revestimento -> {V,F}
 
-%-- Conhecimento nao pode ser repetido --%
-+(Ar::cobertura(A)) :: (findall(A, Ar::cobertura( A ), S),
-                                comprimento( S,N ), N == 1
-                                ).
-
-
-%-- Conhecimento negativo --%
--cobertura(A) :- nao(cobertura(A)), nao(excecao(cobertura(A))).
-
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%Extensao do predicado reproducao: Ave,Reproducao -> {V,F}
-
-ave :: reproducao( ovipara ).
-
-
-%-------Invariantes--------%
-
-%-- Conhecimento nao pode ser repetido --%
-+(Ar::reproducao(A)) :: (findall(A, Ar::reproducao( A ), S),
-                                comprimento( S,N ), N == 1
-                                ).
-
-
-%-- Conhecimento negativo --%
--reproducao(A) :- nao(reproducao(A)), nao(excecao(reproducao(A))).
+ave::revestimento(penas).
 
 
 
+% Conhecimento nao pode ser repetido
++(Ar::revestimento(C)) :: (findall(C, Ar::revestimento(C), S),
+                    comprimento(S,N), N == 1
+                    ).
+
+
+%-- Conhecimento negativo
+-revestimento(A) :- nao(revestimento(A)), nao(excecao(revestimento(A))).
 
 
 
+%----------------------------------------------------------------- CLASSE --------------------------------------------------------------
+%Extensao do predicado ave: ave, classe -> {V,F}
+
+ave::classe(ave).
+
+
+% Conhecimento nao pode ser repetido
++(Ar::classe(C)) :: (findall(C, Ar::classe(C), S),
+                    comprimento(S,N), N == 1
+                    ).
+
+
+%-- Conhecimento negativo
+-classe(A) :- nao(classe(A)), nao(excecao(classe(A))).
 
 
 
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------- FUNÇÕES GERAIS -------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+% Extensão do predicado que permite a evolução (inserção) de conhecimento: Termo -> {v, F}
+evolucao( Termo ) :-
+    solucoes( Invariante,+Termo::Invariante,Lista ),
+    insercao( Termo ),
+    teste( Lista ).
 
+solucoes(X,Y,Z):- findall(X, Y, Z).
 
+insercao(Termo):- assert(Termo).
+insercao(Termo):- retract(Termo), !, fail.
 
+teste([]).
+teste([R|LR]):- R, teste(LR).
 
+%----------------------------------------------------------------- - - - - - - - - - -  -  -  -  -   -
 
+% Extensao do meta-predicado nao: Questao -> {V,F}
+nao(Questao):- Questao, !, fail.
+nao(Questao).
 
+%----------------------------------------------------------------- - - - - - - - - - -  -  -  -  -   -
 
+% Extensão do predicado que permite a remoção de conhecimento: Termo -> {v, F}
+remocao(Termo) :-
+    solucoes(Invariante,-Termo::Invariante,Lista),
+    teste(Lista),
+    remover(Termo).
 
+remover(Termo):- retract(Termo).
 
+%----------------------------------------------------------------- - - - - - - - - - -  -  -  -  -   -
 
+% Extensão do predicado comprimento: L, R -> {V, F}
+comprimento([], 0) .
+comprimento([H|T], R) :-
+    comprimento(T, X),
+    R is 1+X .
 
-ligar( QN ) :-
-    linda_client( QN ).
+%----------------------------------------------------------------- - - - - - - - - - -  -  -  -  -   -
 
-qn( L ) :-
-    bagof_rd_noblock( X,X,L ).
+ligar(QN):-linda_client(QN).
+
+qn(L):-bagof_rd_noblock(X,X,L).

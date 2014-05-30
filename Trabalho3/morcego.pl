@@ -7,6 +7,7 @@
 :- dynamic revestimento/2.
 :- dynamic alimento/2.
 :- dynamic cor/2.
+:- dynamic locomocao/2.
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -18,17 +19,16 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do predicado e_um: SubClasse,Classe -> {V,F}
 
-e_um(batman,ave).
-e_um(batman,mamifero).
+e_um(morcego,mamifero).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Iniciaizacao da vida do agente
 
 demo :-
-    write('Sou o BATMAN'),nl,
-    in(demo(batman,Questao)),
-    write('demo(batman,Questao)'),nl,
-    demo(batman,Questao),
+    write('Sou o MORCEGO'),nl,
+    in(demo(morcego,Questao)),
+    write('demo(morcego,Questao)'),nl,
+    demo(morcego,Questao),
     demo.
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -54,9 +54,9 @@ demo(Agente,Questao) :-
 
 
 %-------------------------------------------------------------------- REVESTIMENTO ----------------------------------------------------
-%Extensao do predicado batman: batman, revestimento -> {V,F}
+%Extensao do predicado morcego: morcego, Revestimento -> {V,F}
 
-batman::revestimento(pelos).
+morcego::revestimento(pelos).
 
 
 
@@ -74,12 +74,9 @@ batman::revestimento(pelos).
 
 
 %----------------------------------------------------------------- ALIMENTO --------------------------------------------------------------
-%Extensao do predicado batman: batman, alimento -> {V,F}
+%Extensao do predicado morcego: morcego, Alimento -> {V,F}
 
-batman::alimento(lasanha).
-batman::alimento('arroz de cabidela').
-batman::alimento('peixe grelhado no forno').
-
+morcego::alimento(ratos).
 
 
 % Conhecimento nao pode ser repetido
@@ -94,11 +91,10 @@ batman::alimento('peixe grelhado no forno').
 
 
 %----------------------------------------------------------------- COR --------------------------------------------------------------
-%Extensao do predicado batman: batman, Cor -> {V,F}
+%Extensao do predicado morcego: morcego, Cor -> {V,F}
 
-batman::cor(branco).
-batman::cor(preto).
-batman::cor(amarelo).
+morcego::cor(preto).
+morcego::cor(castanho).
 
 
 % Conhecimento nao pode ser repetido
@@ -109,6 +105,24 @@ batman::cor(amarelo).
 
 %-- Conhecimento negativo
 -cor(A) :- nao(cor(A)), nao(excecao(cor(A))).
+
+
+
+%----------------------------------------------------------------- LOCOMOCAO --------------------------------------------------------------
+%Extensao do predicado morcego: morcego, Cor -> {V,F}
+
+morcego::locomocao(voo).
+
+
+% Conhecimento nao pode ser repetido
++(Ar::locomocao(C)) :: (findall(C, Ar::locomocao(C), S),
+                    comprimento(S,N), N == 1
+                    ).
+
+
+%-- Conhecimento negativo
+-locomocao(A) :- nao(locomocao(A)), nao(excecao(locomocao(A))).
+
 
 
 
