@@ -1,7 +1,7 @@
 % Distribuicao da Computacao - LINDA
 
 % SICStus PROLOG: definicoes iniciais
-:- op( 800,xfx,'::' ).
+:- op(900,xfx,'::' ).
 :- dynamic '-'/1.
 :- dynamic e_um/2.
 :- dynamic locomocao/2.
