@@ -1,6 +1,9 @@
 % Distribuicao da Computacao - LINDA
-
 % SICStus PROLOG: definicoes iniciais
+:- set_prolog_flag( discontiguous_warnings,off ).
+:- set_prolog_flag( single_var_warnings,off ).
+:- set_prolog_flag( unknown,fail ).
+
 :- op(900,xfx,'::' ).
 :- dynamic '-'/1.
 :- dynamic classe/2.
@@ -8,7 +11,6 @@
 :- dynamic grupo/2.
 :- dynamic reproducao/2.
 :- dynamic e_um/2.
-
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Carregamento das bibliotecas
@@ -40,8 +42,8 @@ demo(Agente,Questao):-
     out(demo(Classe,Questao)).
 
 demo(Agente,Questao) :-
-    write((3,nao)),nl,
-    out(prova(Agente,nao)).
+    write('Nao Sei Responder'),nl,
+    out(prova(Agente,indefinido)).
 
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------- BASE DE CONHECIMENTO ---------------------------------------------------------------------
@@ -53,7 +55,7 @@ demo(Agente,Questao) :-
 
 animal::classe(mamifero).
 animal::classe(reptil).
-animal::classe(paixe).
+animal::classe(peixe).
 animal::classe(ave).
 animal::classe(anfibio).
 animal::classe(insecto).
@@ -176,6 +178,3 @@ ligar(QN):-linda_client(QN).
 
 % X, p(X), S
 qn(L):-bagof_rd_noblock(X,X,L).
-
-
-

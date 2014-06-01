@@ -1,6 +1,9 @@
 % Distribuicao da Computacao - LINDA
-
 % SICStus PROLOG: definicoes iniciais
+:- set_prolog_flag( discontiguous_warnings,off ).
+:- set_prolog_flag( single_var_warnings,off ).
+:- set_prolog_flag( unknown,fail ).
+
 :- op(900,xfx,'::' ).
 :- dynamic '-'/1.
 :- dynamic e_um/2.
@@ -45,21 +48,14 @@ demo(Agente,Questao):-
     write((2,e_um(Agente,Classe))),nl,
     out(demo(Classe,Questao)).
 
-demo(Agente,Questao) :-
-    write((3,nao)),nl,
-    out(prova(Agente,nao)).
-
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------- BASE DE CONHECIMENTO ---------------------------------------------------------------------
 %---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 %-------------------------------------------------------------------- LOCOMOCAO ----------------------------------------------------
 %Extensao do predicado mamifero: Mamifero, Locomocao -> {V,F}
 
 mamifero::locomocao(andamento).
-
-
 
 % Conhecimento nao pode ser repetido
 +(Ar::locomocao(C)) :: (findall(C, Ar::locomocao(C), S),
@@ -69,10 +65,6 @@ mamifero::locomocao(andamento).
 
 %-- Conhecimento negativo
 -locomocao(A) :- nao(locomocao(A)), nao(excecao(locomocao(A))).
-
-
-
-
 
 %----------------------------------------------------------------- REVESTIMENTO --------------------------------------------------------------
 %Extensao do predicado mamifero: Mamifero, Revestimento -> {V,F}
