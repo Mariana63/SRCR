@@ -7,7 +7,6 @@
 package srcr;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import se.sics.jasper.SICStus;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -21,138 +20,33 @@ import se.sics.jasper.SPException;
 public class SRCR {
 
     public static Scanner in = new Scanner(System.in);
-  
-
-    /**public static String menuConjunto() throws IOException, ClassNotFoundException {
-	String query=null;
-        
-        System.out.println("\n################ Distancia entre cidades ##################");
-	System.out.println("#                                                         #");
-    	System.out.println("#   Para cada cidade que pretenda passar, insira o seu    #");
-        System.out.println("#   nome (exemplo: Braga), seguido de ENTER.              #");
-        System.out.println("#   No caso de haver espaços, utilize o caracter '_' em   #");
-        System.out.println("#   detrimento destes (exemplo: Viana_Castelo).           #");
-        System.out.println("#   Assim que tenha  terminado  o trajecto pretendido,    #");
-        System.out.println("#   escreva a palavra FIM, mais ENTER.                    \n#");
-        in.nextLine();
-        String cidade="";
-        String token="";
-        ArrayList<String> cidades = new ArrayList<String> (); 
-        int vez=0;
-        do{
-            if(vez==0){
-                System.out.println("#   Insira o nome da cidade de partida:                   #");
-                cidade = in.nextLine();
-                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true)){
-                    token="]";
-                    vez++;
-                    break;
-                }
-                else {
-                token="'"+cidade+"'";
-                cidades.add(token);
-                vez++;}
-                }
-            else {
-                System.out.println("\n#   Insira o nome da "+(vez+1)+"ª cidade pretendida:                #");
-                System.out.println("#        (ou \"Fim\" para terminar o conjunto)              #");
-                cidade = in.nextLine();
-                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true)){
-                    token="]";
-                    vez++;
-                    break;
-                }
-                else {
-                token="'"+cidade+"'";
-                cidades.add(token);
-                vez++;}
-                }
-        }while((cidade.equals("FIM")==false)||(cidade.equals("Fim")==false)||(cidade.equals("fim")==false)); 
-        
-        System.out.println("#                                                         #");
-	System.out.println("###########################################################");
-        String lista = cidades.toString();
-        //System.out.println(lista);
-        query="conjuntoCusto("+lista+",DISTANCIA,CONJUNTO).";
-        
-        return query;
-    }
     
-    public static String menuSequencia() throws IOException, ClassNotFoundException {
+    public static String menuAnimal() throws IOException, ClassNotFoundException {
 	String query=null;
-        
-        System.out.println("\n################ Distancia entre cidades ##################");
+        System.out.println("\n######################## Animal ###########################");
 	System.out.println("#                                                         #");
-    	System.out.println("#   Para cada cidade que pretenda passar, insira o seu    #");
-        System.out.println("#   nome (exemplo: Braga), seguido de ENTER.              #");
-        System.out.println("#   No caso de haver espaços, utilize o caracter '_' em   #");
-        System.out.println("#   detrimento destes (exemplo: Viana_Castelo).           #");
-        System.out.println("#   Assim que tenha  terminado  o trajecto pretendido,    #");
-        System.out.println("#   escreva a palavra FIM, mais ENTER.                    \n#");
-        in.nextLine();
-        String cidade="";
-        String token="";
-        ArrayList<String> cidades = new ArrayList<String> (); 
-        int vez=0;
-        do{
-            if(vez==0){
-                System.out.println("#   Insira o nome da cidade de partida:                   #");
-                cidade = in.nextLine();
-                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true))
-                    break;
-                else {
-                token="'"+cidade+"'";
-                cidades.add(token);
-                vez++;}
-                }
-            else {
-                System.out.println("\n#   Insira o nome da "+(vez+1)+"ª cidade pretendida:                #");
-                System.out.println("#    (ou \"Fim\" para terminar o conjunto ou sequencia)     #");
-                cidade = in.nextLine();
-                if((cidade.equals("FIM")==true)||(cidade.equals("Fim")==true)||(cidade.equals("fim")==true))
-                    break;
-                else {
-                token="'"+cidade+"'";
-                cidades.add(token);
-                vez++;}
-                }
-        }while((cidade.equals("FIM")==false)||(cidade.equals("Fim")==false)||(cidade.equals("fim")==false)); 
-        
-        System.out.println("#                                                         #");
-	System.out.println("###########################################################");
-        String lista = cidades.toString();
-        //System.out.println(lista);
-        query="sequenciaMinima("+lista+",DISTANCIA).";
-        
-        return query;
-    }
-    
-    public static String menuCidadeRegiao() throws IOException, ClassNotFoundException {
-	String query=null;
-        System.out.println("\n################### Cidades por região ####################");
-	System.out.println("#                                                         #");
-    	System.out.println("#   De que zona do país pretende ver                      #");
+    	System.out.println("#   Qual a questão:                                       #");
     	System.out.println("#                                                         #");
-	System.out.println("#   Prima:                                                #");
-	System.out.println("#            N - Norte                                    #");
-	System.out.println("#            C - Centro                                   #");
-	System.out.println("#            S - Sul                                      #");
+	System.out.println("#   1 - Classe                                            #");
+	System.out.println("#   2 - Regime                                            #");
+	System.out.println("#   3 - Reprodução                                        #");
+	System.out.println("#   4 - Grupo                                             #");
 	System.out.println("#                                                         #");
 	System.out.println("###########################################################");
     	String opt = in.next();
         switch (opt) {
-            case "N":
-            case "n":
-                query="zona(CIDADE,'Norte').";
+            case "1":
+                query="p(animal,classe(X),RESPOSTA).";
                 break;
-            case "C":
-            case "c":
-                query="zona(CIDADE,'Centro').";
+            case "2":
+                query="p(animal,regime(X),RESPOSTA).";
                 break;
-            case "S":
-            case "s":
-                query="zona(CIDADE,'Sul').";
+            case "3":
+                query="p(animal,reproducao(X),RESPOSTA).";
                 break;
+            case "4":
+                query="p(animal,grupo(X),RESPOSTA).";
+                break;   
             default:
                 System.out.println("Opcão inválida!");
                 query="erro";
@@ -161,97 +55,246 @@ public class SRCR {
         return query;
     }
     
-    public static String menuPercursos() throws IOException, ClassNotFoundException {
+    public static String menuMamifero() throws IOException, ClassNotFoundException {
 	String query=null;
-        
-        System.out.println("\n################# Distâncias de Percursos #################");
+        System.out.println("\n####################### Mamifero ##########################");
 	System.out.println("#                                                         #");
-        System.out.println("#   1 - Ligações entre cidades                            #");
-    	System.out.println("#   2 - Conjunto de pontos a percorrer                    #");
-    	System.out.println("#   3 - Distância mínima para uma sequência               #");
+    	System.out.println("#   Qual a questão:                                       #");
+    	System.out.println("#                                                         #");
+	System.out.println("#   1 - Locomoção                                         #");
+	System.out.println("#   2 - Grupo                                             #");
+	System.out.println("#   3 - Revestimento                                      #");
 	System.out.println("#                                                         #");
-	System.out.println("#   Escolha uma opção:                                    #");
 	System.out.println("###########################################################");
     	String opt = in.next();
-   	
-        if(opt.equals("1"))
-                { query="ligacao(ÍNICIO,FIM,DISTANCIA)."; } else
-        if(opt.equals("2"))
-                { query=menuConjunto(); } else
-    	if(opt.equals("3"))
-                { query=menuSequencia(); }
-        else { System.out.println("Opcão inválida!");
-               query="erro"; }
-                
+        switch (opt) {
+            case "1":
+                query="p(mamifero,locomocao(X),RESPOSTA).";
+                break;
+            case "2":
+                query="p(mamifero,grupo(X),RESPOSTA).";
+                break;
+            case "3":
+                query="p(mamifero,revestimento(X),RESPOSTA).";
+                break;   
+            default:
+                System.out.println("Opcão inválida!");
+                query="erro";
+                break;
+        }
         return query;
     }
     
-    public static String menuInfoCidades() throws IOException, ClassNotFoundException {
+    public static String menuAve() throws IOException, ClassNotFoundException {
 	String query=null;
-        
-        System.out.println("\n########### Informações dos pontos de entrega  ############");
+        System.out.println("\n########################## Ave ############################");
 	System.out.println("#                                                         #");
-    	System.out.println("#   1 - Listar todos os pontos de entrega do país         #");
-        System.out.println("#   2 - Coordenadas cartesianas                           #");
-    	System.out.println("#   3 - Cidades por região                                #");
-        System.out.println("#   4 - Tipo de entrega entre cidades                     #");
+    	System.out.println("#   Qual a questão:                                       #");
+    	System.out.println("#                                                         #");
+	System.out.println("#   1 - Locomoção                                         #");
+	System.out.println("#   2 - Classe                                            #");
+	System.out.println("#   3 - Revestimento                                      #");
 	System.out.println("#                                                         #");
-	System.out.println("#   Escolha uma opção:                                    #");
 	System.out.println("###########################################################");
     	String opt = in.next();
-   		
-        if(opt.equals("1"))
-                { query="servTO(LOJA)."; } else
-    	if(opt.equals("2"))
-                { query="localizacao(CIDADE,COORDENADAS)."; } else
-        if(opt.equals("3"))
-                { query=menuCidadeRegiao(); } else	
-        if(opt.equals("4"))
-                { System.out.println("\ntipo: \n 0 - Normal\n 1 - Express\n");
-                    query="tipoEntrega(CIDADE,TIPO)."; } 
-        else { System.out.println("Opcão inválida!");
-               query="erro";
-             }
-                
+        switch (opt) {
+            case "1":
+                query="p(ave,locomocao(X),RESPOSTA).";
+                break;
+            case "2":
+                query="p(ave,classe(X),RESPOSTA).";
+                break;
+            case "3":
+                query="p(ave,revestimento(X),RESPOSTA).";
+                break;   
+            default:
+                System.out.println("Opcão inválida!");
+                query="erro";
+                break;
+        }
         return query;
     }
     
-    public static String menuPrincipal() throws IOException, ClassNotFoundException {
+    public static String menuBatman() throws IOException, ClassNotFoundException {
 	String query=null;
-        
-        System.out.println("\n################ Transporte de Mercadorias #################");
-	System.out.println("#                                                          #");
-    	System.out.println("#   1 - Informações dos pontos de entrega                  #");
-    	System.out.println("#   2 - Percursos entre cidades                            #");
-        System.out.println("#                                                          #");
-	System.out.println("#   0 - Sair                                               #");
-	System.out.println("#                                                          #");
-	System.out.println("#   Escolha uma opção:                                     #");
-	System.out.println("############################################################");
+        System.out.println("\n######################## Batman ###########################");
+	System.out.println("#                                                         #");
+    	System.out.println("#   Qual a questão:                                       #");
+    	System.out.println("#                                                         #");
+	System.out.println("#   1 - Cor                                               #");
+	System.out.println("#   2 - Alimento                                          #");
+	System.out.println("#                                                         #");
+	System.out.println("###########################################################");
     	String opt = in.next();
-   	
-        if(opt.equals("1"))
-                { query=menuInfoCidades(); 
-                } else	
-        if(opt.equals("2"))
-                { query=menuPercursos(); } else
-        if(opt.equals("0")) 
-                { System.exit(0); }
-        else { System.out.println("Opcão inválida!");
-               query="erro"; 
-             }
-        
+        switch (opt) {
+            case "1":
+                query="p(batman,cor(X),RESPOSTA).";
+                break;
+            case "2":
+                query="p(batman,alimento(X),RESPOSTA).";
+                break; 
+            default:
+                System.out.println("Opcão inválida!");
+                query="erro";
+                break;
+        }
         return query;
     }
-  */
+    
+    public static String menuAvestruz() throws IOException, ClassNotFoundException {
+	String query=null;
+        System.out.println("\n####################### Avestruz ##########################");
+	System.out.println("#                                                         #");
+    	System.out.println("#   Qual a questão:                                       #");
+    	System.out.println("#                                                         #");
+	System.out.println("#   1 - Locomoção                                         #");
+	System.out.println("#   2 - Cor                                               #");
+	System.out.println("#   3 - Reprodução                                        #");
+	System.out.println("#                                                         #");
+	System.out.println("###########################################################");
+    	String opt = in.next();
+        switch (opt) {
+            case "1":
+                query="p(avestruz,locomocao(X),RESPOSTA).";
+                break;
+            case "2":
+                query="p(avestruz,cor(X),RESPOSTA).";
+                break;
+            case "3":
+                query="p(avestruz,reproducao(X),RESPOSTA).";
+                break;   
+            default:
+                System.out.println("Opcão inválida!");
+                query="erro";
+                break;
+        }
+        return query;
+    }
+    
+    public static String menuMorcego() throws IOException, ClassNotFoundException {
+	String query=null;
+        System.out.println("\n####################### Morcego ###########################");
+	System.out.println("#                                                         #");
+    	System.out.println("#   Qual a questão:                                       #");
+    	System.out.println("#                                                         #");
+	System.out.println("#   1 - Locomoção                                         #");
+	System.out.println("#   2 - Cor                                               #");
+	System.out.println("#   3 - Revestimento                                      #");
+	System.out.println("#   4 - Alimento                                          #");
+	System.out.println("#                                                         #");
+	System.out.println("###########################################################");
+    	String opt = in.next();
+        switch (opt) {
+            case "1":
+                query="p(morcego,locomocao(X),RESPOSTA).";
+                break;
+            case "2":
+                query="p(morcego,cor(X),RESPOSTA).";
+                break;
+            case "3":
+                query="p(morcego,revestimento(X),RESPOSTA).";
+                break;
+            case "4":
+                query="p(morcego,alimento(X),RESPOSTA).";
+                break;     
+            default:
+                System.out.println("Opcão inválida!");
+                query="erro";
+                break;
+        }
+        return query;
+    }
+    
+    public static String menuOrni() throws IOException, ClassNotFoundException {
+	String query=null;
+        System.out.println("\n#################### Ornitorrinco #########################");
+	System.out.println("#                                                         #");
+    	System.out.println("#   Qual a questão:                                       #");
+    	System.out.println("#                                                         #");
+	System.out.println("#   1 - Cor                                               #");
+	System.out.println("#   2 - Reprodução                                        #");
+	System.out.println("#   3 - Revestimento                                      #");
+	System.out.println("#                                                         #");
+	System.out.println("###########################################################");
+    	String opt = in.next();
+        switch (opt) {
+            case "1":
+                query="p(ornitorrinco,cor(X),RESPOSTA).";
+                break;
+            case "2":
+                query="p(ornitorrinco,reproducao(X),RESPOSTA).";
+                break;
+            case "3":
+                query="p(ornitorrinco,revestimento(X),RESPOSTA).";
+                break;    
+            default:
+                System.out.println("Opcão inválida!");
+                query="erro";
+                break;
+        }
+        return query;
+    }
+    
+    public static String menuPersonalizado() throws IOException, ClassNotFoundException {
+	String query=null;
+        System.out.println("\n################ Pedido Personalizado #####################");
+	System.out.println("#                                                         #");
+    	System.out.println("#   Efetue o pedido:                                      #");
+	System.out.println("#                                                         #");
+	System.out.println("###########################################################");
+    	String opt = in.next();
+        
+        query=opt;
+        return query;
+    }
     
     public static String menuQuestao() throws IOException, ClassNotFoundException {
 	String query=null;
-        System.out.println("\n# Pedido:                                                  #");
-        String opt = in.next();
-   	
-        query=opt;
-        
+        System.out.println("\n######################## PEDIDOS ##########################");
+	System.out.println("#                                                         #");
+    	System.out.println("#   De que agente pretende fazer o pedido:                #");
+    	System.out.println("#                                                         #");
+	System.out.println("#   1 - Animal                                            #");
+	System.out.println("#   2 - Mamifero                                          #");
+	System.out.println("#   3 - Ave                                               #");
+	System.out.println("#   4 - Batman                                            #");
+	System.out.println("#   5 - Avestruz                                          #");
+	System.out.println("#   6 - Morcego                                           #");
+	System.out.println("#   7 - Ornitorrinco                                      #");
+	System.out.println("#   8 - Pedido personalizado                              #");
+	System.out.println("#                                                         #");
+	System.out.println("###########################################################");
+    	String opt = in.next();
+        switch (opt) {
+            case "1":
+                query=menuAnimal();
+                break;
+            case "2":
+                query=menuMamifero();
+                break;
+            case "3":
+                query=menuAve();
+                break;
+            case "4":
+                query=menuBatman();
+                break;
+            case "5":
+                query=menuAvestruz();
+                break;
+            case "6":
+                query=menuMorcego();
+                break;
+            case "7":
+                query=menuOrni();
+                break;
+            case "8":
+                query=menuPersonalizado();
+                break; 
+            default:
+                System.out.println("Opcão inválida!");
+                query="erro";
+                break;
+        }
         return query;
     }
     
@@ -287,12 +330,29 @@ public class SRCR {
   
   public static void main(String[] argv) throws SPException, IOException, Exception {
   
-      SICStus sp;
-      String nomeFicheiro, server;
-      nomeFicheiro = menuInicial();
+      SICStus sp; //, spAnimal, spAve, spAvestruz, spBatman, spInterface, spMamifero, spMorcego, spOrni;
+      String server; //, nomeFicheiro;
+      //nomeFicheiro = menuInicial();
       server = menuServidor();  
       sp = new SICStus(argv,null);
-      sp.load("C:\\"+nomeFicheiro+".pl");
+      /**spAnimal = new SICStus(argv,null);
+      spAve = new SICStus(argv,null);
+      spAvestruz = new SICStus(argv,null);
+      spBatman = new SICStus(argv,null);
+      spInterface = new SICStus(argv,null);
+      spMamifero = new SICStus(argv,null);
+      */
+      
+      sp.load("C:\\interface.pl");
+      /**spAnimal.load("C:\\animal.pl");
+      spAve.load("C:\\ave.pl");
+      spAvestruz.load("C:\\avestruz.pl");
+      spBatman.load("C:\\batman.pl");
+      spInterface.load("C:\\interface.pl");
+      spMamifero.load("C:\\mamifero.pl");
+      spMorcego.load("C:\\morcego.pl");
+      spOrni.load("C:\\ornitorrinco.pl");
+      */
       String queryS = null;
       HashMap map = new HashMap();
       Query query = null;
@@ -303,10 +363,46 @@ public class SRCR {
                 while (query.nextSolution()) {
                     System.out.println(map.toString());
                 }
+            /**map = new HashMap();
+            query = spAnimal.openPrologQuery(server,map);
+                while (query.nextSolution()) {
+                    System.out.println(map.toString());
+                }
+            map = new HashMap();
+            query = spAve.openPrologQuery(server,map);
+                while (query.nextSolution()) {
+                    System.out.println(map.toString());
+                }
+            map = new HashMap();
+            query = spAvestruz.openPrologQuery(server,map);
+                while (query.nextSolution()) {
+                    System.out.println(map.toString());
+                }
+            map = new HashMap();
+            query = spBatman.openPrologQuery(server,map);
+                while (query.nextSolution()) {
+                    System.out.println(map.toString());
+                }
+            map = new HashMap();
+            query = spMamifero.openPrologQuery(server,map);
+                while (query.nextSolution()) {
+                    System.out.println(map.toString());
+                }
+            map = new HashMap();
+            query = spMorcego.openPrologQuery(server,map);
+                while (query.nextSolution()) {
+                    System.out.println(map.toString());
+                }
+            map = new HashMap();
+            query = spOrni.openPrologQuery(server,map);
+                while (query.nextSolution()) {
+                    System.out.println(map.toString());
+                }*/
             vez++;
             }
             else{
             queryS=menuQuestao();
+            //System.out.println(queryS);
             if(queryS.equals("erro")==false){
             map = new HashMap();
             query = sp.openPrologQuery(queryS,map);
