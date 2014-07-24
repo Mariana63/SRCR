@@ -330,29 +330,14 @@ public class SRCR {
   
   public static void main(String[] argv) throws SPException, IOException, Exception {
   
-      SICStus sp; //, spAnimal, spAve, spAvestruz, spBatman, spInterface, spMamifero, spMorcego, spOrni;
-      String server; //, nomeFicheiro;
-      //nomeFicheiro = menuInicial();
+      SICStus sp;
+      String server; 
       server = menuServidor();  
       sp = new SICStus(argv,null);
-      /**spAnimal = new SICStus(argv,null);
-      spAve = new SICStus(argv,null);
-      spAvestruz = new SICStus(argv,null);
-      spBatman = new SICStus(argv,null);
-      spInterface = new SICStus(argv,null);
-      spMamifero = new SICStus(argv,null);
-      */
+      
       
       sp.load("C:\\interface.pl");
-      /**spAnimal.load("C:\\animal.pl");
-      spAve.load("C:\\ave.pl");
-      spAvestruz.load("C:\\avestruz.pl");
-      spBatman.load("C:\\batman.pl");
-      spInterface.load("C:\\interface.pl");
-      spMamifero.load("C:\\mamifero.pl");
-      spMorcego.load("C:\\morcego.pl");
-      spOrni.load("C:\\ornitorrinco.pl");
-      */
+      
       String queryS = null;
       HashMap map = new HashMap();
       Query query = null;
@@ -363,46 +348,11 @@ public class SRCR {
                 while (query.nextSolution()) {
                     System.out.println(map.toString());
                 }
-            /**map = new HashMap();
-            query = spAnimal.openPrologQuery(server,map);
-                while (query.nextSolution()) {
-                    System.out.println(map.toString());
-                }
-            map = new HashMap();
-            query = spAve.openPrologQuery(server,map);
-                while (query.nextSolution()) {
-                    System.out.println(map.toString());
-                }
-            map = new HashMap();
-            query = spAvestruz.openPrologQuery(server,map);
-                while (query.nextSolution()) {
-                    System.out.println(map.toString());
-                }
-            map = new HashMap();
-            query = spBatman.openPrologQuery(server,map);
-                while (query.nextSolution()) {
-                    System.out.println(map.toString());
-                }
-            map = new HashMap();
-            query = spMamifero.openPrologQuery(server,map);
-                while (query.nextSolution()) {
-                    System.out.println(map.toString());
-                }
-            map = new HashMap();
-            query = spMorcego.openPrologQuery(server,map);
-                while (query.nextSolution()) {
-                    System.out.println(map.toString());
-                }
-            map = new HashMap();
-            query = spOrni.openPrologQuery(server,map);
-                while (query.nextSolution()) {
-                    System.out.println(map.toString());
-                }*/
+                
             vez++;
             }
             else{
             queryS=menuQuestao();
-            //System.out.println(queryS);
             if(queryS.equals("erro")==false){
             map = new HashMap();
             query = sp.openPrologQuery(queryS,map);
